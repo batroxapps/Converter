@@ -1,0 +1,39 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:columnCount="3"
+    android:rowCount="2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:gravity="center">
+	
+    <Spinner android:id="@+id/eenheid_spinner_links"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <Spinner android:id="@+id/grootheid_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <Spinner android:id="@+id/eenheid_spinner_rechts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <EditText
+        android:id="@+id/txt_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/left_txt"
+        android:inputType="numberDecimal" />
+    
+    <Button android:id="@+id/btn_convert"
+        android:text="@string/btn_convert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="convert"/>
+    
+    <TextView android:id="@+id/txtv_uitkomst"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/txtv_uitkomst_def"/>
+
+</GridLayout>
