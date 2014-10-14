@@ -6,5 +6,6 @@
     <string name="left_txt">From</string>
     <string name="btn_convert">Convert</string>
     <string name="txtv_uitkomst_def">Result</string>
+	<string name="btn_switch">Switch</string>
 
 </resources>

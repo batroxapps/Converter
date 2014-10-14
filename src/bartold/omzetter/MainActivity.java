@@ -6,15 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+
 import android.os.Bundle;
+
 import android.view.Menu;
 import android.view.View;
+
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import android.content.pm.ActivityInfo;
 
 import bartold.omzetter.eenheid.*;
@@ -97,6 +102,7 @@ public class MainActivity extends Activity {
         loadGrootheidArrayMap();
         loadEenheidHashMap();
         
+		// adapter for the grootheid spinner
         ArrayAdapter middenAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, grootheden);
         middenSpinner.setAdapter(middenAdapter);
         
@@ -203,4 +209,21 @@ public class MainActivity extends Activity {
     private Eenheid getEenheid(String s){
     	return eenheden.get(s);
     }
+	
+	// switches the units (left to right, right to left)
+	public void switchUnits(View Button){
+		String oldLinksEenheid = (String)linksSpinner.getSelectedItem();
+		String oldRechtsEenheid = (String)rechtsSpinner.getSelectedItem();
+		
+		ArrayAdapter linksAdapter = (ArrayAdapter) linksSpinner.getAdapter();
+		ArrayAdapter rechtsAdapter = (ArrayAdapter) rechtsSpinner.getAdapter();
+		
+		int leftSpinnerPos = rechtsAdapter.getPosition(oldRechtsEenheid);
+		int rightSpinnerPos = linksAdapter.getPosition(oldLinksEenheid);
+		
+		linksSpinner.setSelection(leftSpinnerPos);
+		rechtsSpinner.setSelection(rightSpinnerPos);
+		
+		convert((Button) findViewById(R.id.btn_convert));
+	}
 }

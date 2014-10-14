@@ -1,45 +1,81 @@
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:columnCount="2"
-    android:rowCount="3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-	android:layout_gravity="center">
+    android:layout_height="match_parent">
 	
-    <Spinner android:id="@+id/eenheid_spinner_links"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:layout_gravity="center"/>
-    
-    <Spinner android:id="@+id/grootheid_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:layout_gravity="center"/>
-    
-    <Spinner android:id="@+id/eenheid_spinner_rechts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:layout_gravity="center"/>
-    
-	<Button android:id="@+id/btn_convert"
-        android:text="@string/btn_convert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="convert"
-		android:layout_gravity="center"/>
+	<TableRow android:layout_gravity="top">
+		<Spinner android:id="@+id/eenheid_spinner_links"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_weight="1"/>
+		
+		<Spinner android:id="@+id/eenheid_spinner_rechts"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_weight="1"/>
+			
+    </TableRow>
 	
-    <EditText
-        android:id="@+id/txt_from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/left_txt"
-        android:inputType="numberDecimal" 
-		android:layout_gravity="center"/>
-    
-    <TextView android:id="@+id/txtv_uitkomst"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/txtv_uitkomst_def"
-		android:layout_gravity="center"/>
+	<TableRow android:layout_gravity="top">
+	
+		<Spinner android:id="@+id/grootheid_spinner"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_weight="1"/>
+			
+	</TableRow>
+	
+	<TableRow android:layout_gravity="center_horizontal">
+	
+		<EditText
+			android:id="@+id/txt_from"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:hint="@string/left_txt"
+			android:inputType="numberDecimal" 
+			android:layout_gravity="center"
+			android:layout_weight="1"/>
+		
+		<TextView android:id="@+id/txtv_uitkomst"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:text="@string/txtv_uitkomst_def"
+			android:layout_gravity="center"
+			android:layout_weight="1"/>
+			
+	</TableRow>
+	
+	<TableRow android:layout_gravity="center">
+		
+		<Button android:id="@+id/btn_convert"
+			android:text="@string/btn_convert"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="convert"
+			android:layout_gravity="center"
+			android:layout_weight="1"/>
+		
+	</TableRow>
+	
+	<TableRow android:layout_gravity="bottom">
+	
+		<Button android:id="@+id/btn_switch"
+			android:text="@string/btn_switch"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="switchUnits"
+			android:layout_gravity="center"
+			android:layout_weight="1"			/>
+		
+		<Spinner android:id="@+id/spn_presets"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_weight="1"/>
+	
+	</TableRow>
 
-</GridLayout>
+</TableLayout>
