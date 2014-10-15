@@ -2,6 +2,7 @@ package bartold.omzetter;
 
 import static bartold.util.Utils.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import android.content.pm.ActivityInfo;
 
@@ -83,11 +85,14 @@ public class MainActivity extends Activity {
 	private String[] temperatuurUnits = {"kelvin", "celsius", "fahrenheit"};
 	private String[] currentArray = null;
 	private String[] grootheden = {"Lengte", "Gewicht", "Volume", "Snelheid", "Temperatuur"};
+	private ArrayList<String> presets = new ArrayList<String>();
 	private Map<String, String[]> grootheidArrayMap = new HashMap<String, String[]>();
 	
 	Spinner linksSpinner = null;
     Spinner middenSpinner = null;
     Spinner rechtsSpinner = null;
+	
+	Spinner presetSpinner = null;
 	
 	@SuppressWarnings({"rawtypes", "unchecked"})
     @Override
@@ -98,6 +103,7 @@ public class MainActivity extends Activity {
         linksSpinner = (Spinner) findViewById(R.id.eenheid_spinner_links);
         middenSpinner = (Spinner) findViewById(R.id.grootheid_spinner);
         rechtsSpinner = (Spinner) findViewById(R.id.eenheid_spinner_rechts);
+		presetSpinner = (Spinner) findViewById(R.id.spn_presets);
         
         loadGrootheidArrayMap();
         loadEenheidHashMap();
@@ -107,12 +113,30 @@ public class MainActivity extends Activity {
         middenSpinner.setAdapter(middenAdapter);
         
         setSpinnerArrays();
+		
+		loadPresetArrayList();
+		
+		// adapter for the preset spinner
+		ArrayAdapter presetAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, convertArrayListToArray(presets));
+		presetSpinner.setAdapter(presetAdapter);
         
-        middenSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+		loadSpinnerEvents();
+		
+		
+    }
+	
+	private void loadSpinnerEvents(){
+		loadMiddenSpinnerEvents();
+        loadPresetSpinnerEvents();
+	}
+	
+	private void loadMiddenSpinnerEvents(){
+		middenSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 				@Override
 				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 					setSpinnerArrays();
+					
 				}
 
 				@Override
@@ -120,7 +144,29 @@ public class MainActivity extends Activity {
         		
         	}
         );
-    }
+	}
+	
+	private void loadPresetSpinnerEvents(){
+		presetSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+			
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View arg1, int pos, long arg3){
+					
+					if(parent.getItemAtPosition(pos).equals(getString(R.string.new_preset))){
+						// open dialog to add new presets
+						Toast.makeText(getApplicationContext(), "It's alive!!", Toast.LENGTH_LONG).show();
+					}else{
+						// setPreset(parent.getSelectedItem(pos));
+					}
+					
+				}
+			
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0){}
+			
+			}
+		);
+	}
 
 
     @Override
@@ -178,13 +224,22 @@ public class MainActivity extends Activity {
     	grootheidArrayMap.put(grootheden[3], speedUnits);
     	grootheidArrayMap.put(grootheden[4], temperatuurUnits);
     }
+	
+	// loads the presets into the ArrayList
+	private void loadPresetArrayList(){
+		presets.add(getString(R.string.new_preset));
+		presets.add("test1");
+		presets.add("test2");
+		presets.add("test3");
+		presets.add("test4");
+	}
     
     public void convert(View button){
     	EditText txtFrom = (EditText) findViewById(R.id.txt_from);
     	TextView tvUitkomst = (TextView) findViewById(R.id.txtv_uitkomst);
     	double uitkomst = 0;
     	try{
-    		uitkomst = roundDouble(Eenheid.convert(getEenheid((String)linksSpinner.getSelectedItem()), getEenheid((String)rechtsSpinner.getSelectedItem()), Double.parseDouble(txtFrom.getText().toString())), 5);
+    		uitkomst = roundDouble(Eenheid.convert(getEenheid((String)linksSpinner.getSelectedItem()), getEenheid((String)rechtsSpinner.getSelectedItem()), Double.parseDouble(txtFrom.getText().toString())), 7);
     	}catch(NumberFormatException e){
     		showErrorMsgBox("Please enter a number!!!");
     	}

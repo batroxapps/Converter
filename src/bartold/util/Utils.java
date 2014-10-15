@@ -1,5 +1,6 @@
 package bartold.util;
 
+import java.util.ArrayList;
 
 /*  
 *  class that will have a lot of handy stuff in it
@@ -50,6 +51,7 @@ public class Utils{
 		return 0;
 	}
 	
+	// checks if an element is present in an array
 	public static <T> boolean isElementPresentInArray(T[] array, T par){
 		for(T t : array){
 			if(t.equals(par)){
@@ -59,11 +61,19 @@ public class Utils{
 		return false;
 	}
 	
+	// read the name ;)
 	public static Character[] primitiveToBoxedCharArray(char[] beginArray){
 		Character[] resultArray = new Character[beginArray.length];
 		for(int i = 0; i < beginArray.length; i++){
 			resultArray[i] = beginArray[i];
 		}
 		return resultArray;
+	}
+	
+	// converts an ArrayList to an Array and returns it
+	public static <T> T[] convertArrayListToArray(ArrayList<T> list){
+		T[] result = (T[])new Object[list.size()];
+		result = list.toArray(result);
+		return result;
 	}
 }
