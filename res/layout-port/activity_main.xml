@@ -67,14 +67,21 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:onClick="switchUnits"
-			android:layout_gravity="center"
+			
 			android:layout_weight="1"			/>
 		
 		<Spinner android:id="@+id/spn_presets"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center"
+			
 			android:layout_weight="1"/>
+			
+		<Button android:id="@+id/btn_presets"
+			android:text="@string/btn_presets"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="openPresetManagerActivity"
+			android:layout_weight="1" />
 	
 	</TableRow>
 

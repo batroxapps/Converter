@@ -25,4 +25,8 @@ public class Preset {
 	public String getEenheidTo(){
 		return eenheidTo;
 	}
+	
+	public String getName(){
+		return name;
+	}
 }

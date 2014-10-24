@@ -2,11 +2,18 @@ package bartold.omzetter;
 
 import static bartold.util.Utils.*;
 
+import bartold.omzetter.eenheid.*;
+import bartold.omzetter.eenheid.formule.Formule;
+import bartold.omzetter.preset.PresetManagerActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 
 import android.os.Bundle;
 
@@ -21,11 +28,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import android.content.pm.ActivityInfo;
-
-import bartold.omzetter.eenheid.*;
-import bartold.omzetter.eenheid.formule.Formule;
 
 public class MainActivity extends Activity {
 
@@ -78,13 +80,14 @@ public class MainActivity extends Activity {
 	// us temperature units
 	private static Temperatuur f = new Temperatuur("f", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{1d}));
 	
-	private String[] distanceUnits = {"millimeter", "centimeter", "decimeter", "meter", "decameter", "hectometer", "kilometer", "inch", "yard", "foot", "mile"};
+	private String[] distanceUnits = {"millimeter", "centimeter", "decimeter", "meter", "decameter", "hectometer", "kilometer", "inch", "foot", "yard", "mile"};
 	private String[] weightUnits = {"gram", "kilogram", "grain", "dram", "ounce", "pound"};
 	private String[] volumeUnits = {"milliliter", "metric cup", "liter", "fl oz (imp)", "cup (imp)",  "pint (imp)", "quart (imp)", "gallon (imp)", "fl oz (US)", "cup (US)", "pint (US)", "quart (US)", "gallon (US)"};
 	private String[] speedUnits = {"kilometer/uur", "meter/s", "mijl/uur"};
 	private String[] temperatuurUnits = {"kelvin", "celsius", "fahrenheit"};
 	private String[] currentArray = null;
 	private String[] grootheden = {"Lengte", "Gewicht", "Volume", "Snelheid", "Temperatuur"};
+	private ArrayList<String> presetNames = new ArrayList<String>();
 	private ArrayList<String> presets = new ArrayList<String>();
 	private Map<String, String[]> grootheidArrayMap = new HashMap<String, String[]>();
 	
@@ -93,6 +96,7 @@ public class MainActivity extends Activity {
     Spinner rechtsSpinner = null;
 	
 	Spinner presetSpinner = null;
+	Button presetButton = null;
 	
 	@SuppressWarnings({"rawtypes", "unchecked"})
     @Override
@@ -100,30 +104,37 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        linksSpinner = (Spinner) findViewById(R.id.eenheid_spinner_links);
+		loadGrootheidArrayMap();
+        loadEenheidHashMap();
+		
+		initSpinners();
+		
+		initPresets();
+		loadSpinnerEvents();
+    }
+	
+	private void initSpinners(){
+		linksSpinner = (Spinner) findViewById(R.id.eenheid_spinner_links);
         middenSpinner = (Spinner) findViewById(R.id.grootheid_spinner);
         rechtsSpinner = (Spinner) findViewById(R.id.eenheid_spinner_rechts);
-		presetSpinner = (Spinner) findViewById(R.id.spn_presets);
-        
-        loadGrootheidArrayMap();
-        loadEenheidHashMap();
-        
+		
 		// adapter for the grootheid spinner
         ArrayAdapter middenAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, grootheden);
         middenSpinner.setAdapter(middenAdapter);
         
         setSpinnerArrays();
+	}
+
+	private void initPresets(){
+		presetSpinner = (Spinner) findViewById(R.id.spn_presets);
+		presetButton = (Button) findViewById(R.id.btn_presets);
 		
-		loadPresetArrayList();
+		loadPresetArrayLists();
 		
 		// adapter for the preset spinner
-		ArrayAdapter presetAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, convertArrayListToArray(presets));
+		ArrayAdapter presetAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, convertArrayListToArray(presetNames));
 		presetSpinner.setAdapter(presetAdapter);
-        
-		loadSpinnerEvents();
-		
-		
-    }
+	}
 	
 	private void loadSpinnerEvents(){
 		loadMiddenSpinnerEvents();
@@ -151,14 +162,9 @@ public class MainActivity extends Activity {
 			
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View arg1, int pos, long arg3){
+					// String preset = (String) parent.getItemAtPosition(pos);
 					
-					if(parent.getItemAtPosition(pos).equals(getString(R.string.new_preset))){
-						// open dialog to add new presets
-						Toast.makeText(getApplicationContext(), "It's alive!!", Toast.LENGTH_LONG).show();
-					}else{
-						// setPreset(parent.getSelectedItem(pos));
-					}
-					
+					// setPreset(preset);
 				}
 			
 				@Override
@@ -226,12 +232,8 @@ public class MainActivity extends Activity {
     }
 	
 	// loads the presets into the ArrayList
-	private void loadPresetArrayList(){
-		presets.add(getString(R.string.new_preset));
-		presets.add("test1");
-		presets.add("test2");
-		presets.add("test3");
-		presets.add("test4");
+	private void loadPresetArrayLists(){
+		presetNames.add("test");
 	}
     
     public void convert(View button){
@@ -280,5 +282,11 @@ public class MainActivity extends Activity {
 		rechtsSpinner.setSelection(rightSpinnerPos);
 		
 		convert((Button) findViewById(R.id.btn_convert));
+	}
+	
+	//opens the activity to manage the presets
+	public void openPresetManagerActivity(View Button){
+		Intent intent = new Intent(this, PresetManagerActivity.class);
+		startActivity(intent);
 	}
 }

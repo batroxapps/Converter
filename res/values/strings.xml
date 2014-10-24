@@ -7,6 +7,6 @@
     <string name="btn_convert">Convert</string>
     <string name="txtv_uitkomst_def">Result</string>
 	<string name="btn_switch">Switch</string>
-	<string name="new_preset">New Preset</string>
+	<string name="btn_presets">Manage presets</string>
 
 </resources>
