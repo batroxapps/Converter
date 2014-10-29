@@ -83,10 +83,10 @@ public class MainActivity extends Activity {
 	private static Temperatuur f = new Temperatuur("f", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{1d}));
 	
 	private String[] distanceUnits; 
-	private String[] weightUnits = {"gram", "kilogram", "grain", "dram", "ounce", "pound"};
-	private String[] volumeUnits = {"milliliter", "metric cup", "liter", "fl oz (imp)", "cup (imp)",  "pint (imp)", "quart (imp)", "gallon (imp)", "fl oz (US)", "cup (US)", "pint (US)", "quart (US)", "gallon (US)"};
-	private String[] speedUnits = {"kilometer/uur", "meter/s", "knopen", "mijl/uur"};
-	private String[] temperatuurUnits = {"kelvin", "celsius", "fahrenheit"};
+	private String[] weightUnits;
+	private String[] volumeUnits;
+	private String[] speedUnits;
+	private String[] temperatuurUnits;
 	private String[] currentArray = null;
 	private String[] grootheden;
 	private static ArrayList<String> presetNames = new ArrayList<String>();
@@ -106,8 +106,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-		distanceUnits = getResources().getStringArray(R.array.length_units);
-		grootheden = getResources().getStringArray(R.array.measures);
+		loadArrays();
+		
 		
 		loadGrootheidArrayMap();
         loadEenheidHashMap();
@@ -116,7 +116,20 @@ public class MainActivity extends Activity {
 		
 		initPresets();
 		loadSpinnerEvents();
+		write("5");
+		System.out.println((String)linksSpinner.getSelectedItem());
+		System.out.println((String)rechtsSpinner.getSelectedItem());
     }
+	
+	private void loadArrays(){
+		distanceUnits = getResources().getStringArray(R.array.length_units);
+		weightUnits = getResources().getStringArray(R.array.weight_units);
+		volumeUnits = getResources().getStringArray(R.array.volume_units);
+		speedUnits = getResources().getStringArray(R.array.speed_units);
+		temperatuurUnits = getResources().getStringArray(R.array.temperature_units);
+		
+		grootheden = getResources().getStringArray(R.array.measures);
+	}
 	
 	private void initSpinners(){
 		linksSpinner = (Spinner) findViewById(R.id.eenheid_spinner_links);
@@ -144,6 +157,7 @@ public class MainActivity extends Activity {
 	public static void addPreset(Preset preset){
 		presetNames.add(preset.getName());
 		presets.put(preset.getName(), preset);
+		
 	}
 	
 	private void loadSpinnerEvents(){
@@ -157,7 +171,6 @@ public class MainActivity extends Activity {
 				@Override
 				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 					setSpinnerArrays();
-					
 				}
 
 				@Override
@@ -169,6 +182,9 @@ public class MainActivity extends Activity {
 	
 	private void loadPresetSpinnerEvents(){
 		presetSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+			
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0){}
 			
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View arg1, int pos, long arg3){
@@ -183,24 +199,33 @@ public class MainActivity extends Activity {
 						String rechts = p.getEenheidTo();
 						
 						ArrayAdapter grootheidAdapter = (ArrayAdapter) middenSpinner.getAdapter();
-						ArrayAdapter linksAdapter = (ArrayAdapter) linksSpinner.getAdapter();
-						ArrayAdapter rechtsAdapter = (ArrayAdapter) rechtsSpinner.getAdapter();
 						
 						int midSpinnerPos = grootheidAdapter.getPosition(groot);
 						
 						middenSpinner.setSelection(midSpinnerPos);
+						System.out.println((String)middenSpinner.getSelectedItem());
+						
+						setSpinnerArrays();
+						
+						ArrayAdapter linksAdapter = (ArrayAdapter) linksSpinner.getAdapter();
+						ArrayAdapter rechtsAdapter = (ArrayAdapter) rechtsSpinner.getAdapter();
 						
 						int leftSpinnerPos = rechtsAdapter.getPosition(links);
 						int rightSpinnerPos = linksAdapter.getPosition(rechts);
 						
+						write("1");
 						linksSpinner.setSelection(leftSpinnerPos);
+						System.out.println((String)linksSpinner.getSelectedItem());
 						rechtsSpinner.setSelection(rightSpinnerPos);
+						System.out.println((String)rechtsSpinner.getSelectedItem());
 						System.out.println(midSpinnerPos + ", " + leftSpinnerPos + ", " + rightSpinnerPos);
 					}
+					write("2");
+					System.out.println((String)linksSpinner.getSelectedItem());
+					System.out.println((String)rechtsSpinner.getSelectedItem());
 				}
 			
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0){}
+				
 			
 			}
 		);
@@ -216,7 +241,6 @@ public class MainActivity extends Activity {
     
     private void loadEenheidHashMap(){
     	//load hashmap : tekst in combobox - eenheden objecten
-			
 				eenheden.put(distanceUnits[0], mm);
     			eenheden.put(distanceUnits[1], cm);
     			eenheden.put(distanceUnits[2], dm);
@@ -228,32 +252,36 @@ public class MainActivity extends Activity {
     			eenheden.put(distanceUnits[8], ft);
     			eenheden.put(distanceUnits[9], yd);
     			eenheden.put(distanceUnits[10], mi);
-    			eenheden.put("gram", g);
-    			eenheden.put("kilogram", kg);
-    			eenheden.put("grain", gr);
-    			eenheden.put("dram", dr);
-    			eenheden.put("ounce", oz);
-    			eenheden.put("pound", lb);
-    			eenheden.put("milliliter", ml);
-    			eenheden.put("liter", l);
-    			eenheden.put("metric cup", mcup);
-    			eenheden.put("fl oz (imp)", impfloz);
-    			eenheden.put("cup (imp)", impcup);
-    			eenheden.put("pint (imp)", imppt);
-    			eenheden.put("quart (imp)", impqt);
-    			eenheden.put("gallon (imp)", impgal);
-    			eenheden.put("fl oz (US)", usfloz);
-    			eenheden.put("cup (US)", uscup);
-    			eenheden.put("pint (US)", uspt);
-    			eenheden.put("quart (US)", usqt);
-    			eenheden.put("gallon (US)", usgal);
-    			eenheden.put("kilometer/uur", kph);
-    			eenheden.put("meter/s", mps);
-				eenheden.put("knopen", knoop);
-    			eenheden.put("mijl/uur", mph);
-    			eenheden.put("celsius", c);
-    			eenheden.put("kelvin", k);
-    			eenheden.put("fahrenheit", f);
+				
+    			eenheden.put(weightUnits[0], g);
+    			eenheden.put(weightUnits[1], kg);
+    			eenheden.put(weightUnits[2], gr);
+    			eenheden.put(weightUnits[3], dr);
+    			eenheden.put(weightUnits[4], oz);
+    			eenheden.put(weightUnits[5], lb);
+				
+    			eenheden.put(volumeUnits[0], ml);
+    			eenheden.put(volumeUnits[1], l);
+    			eenheden.put(volumeUnits[2], mcup);
+    			eenheden.put(volumeUnits[3], impfloz);
+    			eenheden.put(volumeUnits[4], impcup);
+    			eenheden.put(volumeUnits[5], imppt);
+    			eenheden.put(volumeUnits[6], impqt);
+    			eenheden.put(volumeUnits[7], impgal);
+    			eenheden.put(volumeUnits[8], usfloz);
+    			eenheden.put(volumeUnits[9], uscup);
+    			eenheden.put(volumeUnits[10], uspt);
+    			eenheden.put(volumeUnits[11], usqt);
+    			eenheden.put(volumeUnits[12], usgal);
+				
+    			eenheden.put(speedUnits[0], kph);
+    			eenheden.put(speedUnits[1], mps);
+				eenheden.put(speedUnits[2], knoop);
+    			eenheden.put(speedUnits[3], mph);
+				
+    			eenheden.put(temperatuurUnits[0], c);
+    			eenheden.put(temperatuurUnits[1], k);
+    			eenheden.put(temperatuurUnits[2], f);
     }
     
     // loads the HashMap which holds the arrays and their "grootheid"
@@ -267,7 +295,10 @@ public class MainActivity extends Activity {
 	
 	// loads the presets into the ArrayList
 	private void loadPresetArrayLists(){
-		presetNames.add("test");
+		// try{
+			// if(presetSpinner.getAdapter().getItem(0) != null)
+				// presetNames.add("test");
+		// }catch(Exception e){}
 	}
     
     public void convert(View button){
@@ -287,14 +318,27 @@ public class MainActivity extends Activity {
     	currentArray = getCurrentArray();
     	ArrayAdapter tempAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, currentArray);
 
-    	linksSpinner.setAdapter(null);
-    	rechtsSpinner.setAdapter(null);
-    	linksSpinner.setAdapter(tempAdapter);
-    	rechtsSpinner.setAdapter(tempAdapter);
+		if(!isArrayActive()){
+			linksSpinner.setAdapter(null);
+			rechtsSpinner.setAdapter(null);
+			linksSpinner.setAdapter(tempAdapter);
+			rechtsSpinner.setAdapter(tempAdapter);
+		}
+		write("10");
+		System.out.println((String)linksSpinner.getSelectedItem());
+		System.out.println((String)rechtsSpinner.getSelectedItem());
     }
+	
+	private boolean isArrayActive(){
+		for(String s : currentArray){
+			if(s.equals(linksSpinner.getSelectedItem()))
+				return true;
+		}
+		return false;
+	}
     
     private String[] getCurrentArray(){
-    	return grootheidArrayMap.get((String)middenSpinner.getSelectedItem());
+    	return grootheidArrayMap.get((String) middenSpinner.getSelectedItem());
     }
     
     private Eenheid getEenheid(String s){

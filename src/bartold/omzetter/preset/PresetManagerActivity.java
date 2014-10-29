@@ -11,13 +11,28 @@ import android.os.Bundle;
 
 import android.view.View;
 
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PresetManagerActivity extends Activity{
 	
 	private Spinner spnGrootheid = null;
 	private Spinner spnEenheidLinks = null;
 	private Spinner spnEenheidRechts = null;
+	
+	private String[] distanceUnits; 
+	private String[] weightUnits;
+	private String[] volumeUnits;
+	private String[] speedUnits;
+	private String[] temperatuurUnits;
+	private String[] currentArray = null;
+	private String[] grootheden;
+	private Map<String, String[]> grootheidArrayMap = new HashMap<String, String[]>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -27,6 +42,12 @@ public class PresetManagerActivity extends Activity{
 		spnGrootheid = (Spinner) findViewById(R.id.spn_preset_grootheid);
 		spnEenheidLinks = (Spinner) findViewById(R.id.spn_preset_links);
 		spnEenheidRechts = (Spinner) findViewById(R.id.spn_preset_rechts);
+		
+		loadArrays();
+		loadGrootheidArrayMap();
+		
+		setSpinnerArrays();
+		loadMiddenSpinnerEvents();
 	}
 	
 	public void savePreset(View button){
@@ -36,4 +57,53 @@ public class PresetManagerActivity extends Activity{
 		bartold.omzetter.MainActivity.addPreset(new Preset(groot, links, rechts));
 	}
 	
+	private void loadArrays(){
+		distanceUnits = getResources().getStringArray(R.array.length_units);
+		weightUnits = getResources().getStringArray(R.array.weight_units);
+		volumeUnits = getResources().getStringArray(R.array.volume_units);
+		speedUnits = getResources().getStringArray(R.array.speed_units);
+		temperatuurUnits = getResources().getStringArray(R.array.temperature_units);
+		
+		grootheden = getResources().getStringArray(R.array.measures);
+	}
+	
+	 // loads the HashMap which holds the arrays and their "grootheid"
+    private void loadGrootheidArrayMap(){
+    	grootheidArrayMap.put(grootheden[0], distanceUnits);
+    	grootheidArrayMap.put(grootheden[1], weightUnits);
+    	grootheidArrayMap.put(grootheden[2], volumeUnits);
+    	grootheidArrayMap.put(grootheden[3], speedUnits);
+    	grootheidArrayMap.put(grootheden[4], temperatuurUnits);
+    }
+	
+	private String[] getCurrentArray(){
+    	return grootheidArrayMap.get((String)spnGrootheid.getSelectedItem());
+    }
+	
+	 @SuppressWarnings({"rawtypes", "unchecked"})
+    private void setSpinnerArrays(){
+    	currentArray = getCurrentArray();
+    	ArrayAdapter tempAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, currentArray);
+
+    	spnEenheidLinks.setAdapter(null);
+    	spnEenheidRechts.setAdapter(null);
+    	spnEenheidLinks.setAdapter(tempAdapter);
+    	spnEenheidRechts.setAdapter(tempAdapter);
+    }
+	
+	private void loadMiddenSpinnerEvents(){
+		spnGrootheid.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					setSpinnerArrays();
+					
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {}
+        		
+        	}
+        );
+	}
 }
