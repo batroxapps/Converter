@@ -12,7 +12,8 @@
     
     <Spinner android:id="@+id/grootheid_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+		android:entries="@array/measures"/>
     
     <Spinner android:id="@+id/eenheid_spinner_rechts"
         android:layout_width="wrap_content"

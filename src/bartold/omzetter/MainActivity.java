@@ -4,6 +4,7 @@ import static bartold.util.Utils.*;
 
 import bartold.omzetter.eenheid.*;
 import bartold.omzetter.eenheid.formule.Formule;
+import bartold.omzetter.preset.Preset;
 import bartold.omzetter.preset.PresetManagerActivity;
 
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ public class MainActivity extends Activity {
 	// Speed metric units
 	private static Speed kph = new Speed("kph", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1d}));
 	private static Speed mps = new Speed("mps", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{3.6d}));
+	private static Speed knoop = new Speed("knopen", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1.852d}));
 	// Speed imperial units
 	private static Speed mph = new Speed("mph", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{1d}));
 	// metric temperatuur units (Kelvin is initizialized as imperial, but is metric
@@ -80,15 +82,15 @@ public class MainActivity extends Activity {
 	// us temperature units
 	private static Temperatuur f = new Temperatuur("f", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{1d}));
 	
-	private String[] distanceUnits = {"millimeter", "centimeter", "decimeter", "meter", "decameter", "hectometer", "kilometer", "inch", "foot", "yard", "mile"};
+	private String[] distanceUnits; 
 	private String[] weightUnits = {"gram", "kilogram", "grain", "dram", "ounce", "pound"};
 	private String[] volumeUnits = {"milliliter", "metric cup", "liter", "fl oz (imp)", "cup (imp)",  "pint (imp)", "quart (imp)", "gallon (imp)", "fl oz (US)", "cup (US)", "pint (US)", "quart (US)", "gallon (US)"};
-	private String[] speedUnits = {"kilometer/uur", "meter/s", "mijl/uur"};
+	private String[] speedUnits = {"kilometer/uur", "meter/s", "knopen", "mijl/uur"};
 	private String[] temperatuurUnits = {"kelvin", "celsius", "fahrenheit"};
 	private String[] currentArray = null;
-	private String[] grootheden = {"Lengte", "Gewicht", "Volume", "Snelheid", "Temperatuur"};
-	private ArrayList<String> presetNames = new ArrayList<String>();
-	private ArrayList<String> presets = new ArrayList<String>();
+	private String[] grootheden;
+	private static ArrayList<String> presetNames = new ArrayList<String>();
+	private static HashMap<String, Preset> presets = new HashMap<String, Preset>();
 	private Map<String, String[]> grootheidArrayMap = new HashMap<String, String[]>();
 	
 	Spinner linksSpinner = null;
@@ -104,6 +106,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+		distanceUnits = getResources().getStringArray(R.array.length_units);
+		grootheden = getResources().getStringArray(R.array.measures);
+		
 		loadGrootheidArrayMap();
         loadEenheidHashMap();
 		
@@ -136,6 +141,11 @@ public class MainActivity extends Activity {
 		presetSpinner.setAdapter(presetAdapter);
 	}
 	
+	public static void addPreset(Preset preset){
+		presetNames.add(preset.getName());
+		presets.put(preset.getName(), preset);
+	}
+	
 	private void loadSpinnerEvents(){
 		loadMiddenSpinnerEvents();
         loadPresetSpinnerEvents();
@@ -162,9 +172,31 @@ public class MainActivity extends Activity {
 			
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View arg1, int pos, long arg3){
-					// String preset = (String) parent.getItemAtPosition(pos);
+					String preset = (String) parent.getItemAtPosition(pos);
 					
-					// setPreset(preset);
+					if(!preset.equals("test")){
+						Preset p = presets.get(preset);
+						System.out.println(p.getName() + p.getGrootheid() + p.getEenheidFrom() + p.getEenheidTo());
+						
+						String groot = p.getGrootheid();
+						String links = p.getEenheidFrom();
+						String rechts = p.getEenheidTo();
+						
+						ArrayAdapter grootheidAdapter = (ArrayAdapter) middenSpinner.getAdapter();
+						ArrayAdapter linksAdapter = (ArrayAdapter) linksSpinner.getAdapter();
+						ArrayAdapter rechtsAdapter = (ArrayAdapter) rechtsSpinner.getAdapter();
+						
+						int midSpinnerPos = grootheidAdapter.getPosition(groot);
+						
+						middenSpinner.setSelection(midSpinnerPos);
+						
+						int leftSpinnerPos = rechtsAdapter.getPosition(links);
+						int rightSpinnerPos = linksAdapter.getPosition(rechts);
+						
+						linksSpinner.setSelection(leftSpinnerPos);
+						rechtsSpinner.setSelection(rightSpinnerPos);
+						System.out.println(midSpinnerPos + ", " + leftSpinnerPos + ", " + rightSpinnerPos);
+					}
 				}
 			
 				@Override
@@ -184,17 +216,18 @@ public class MainActivity extends Activity {
     
     private void loadEenheidHashMap(){
     	//load hashmap : tekst in combobox - eenheden objecten
-    			eenheden.put("millimeter", mm);
-    			eenheden.put("centimeter", cm);
-    			eenheden.put("decimeter", dm);
-    			eenheden.put("meter", m);
-    			eenheden.put("decameter", dam);
-    			eenheden.put("hectometer", hm);
-    			eenheden.put("kilometer", km);
-    			eenheden.put("inch", in);
-    			eenheden.put("foot", ft);
-    			eenheden.put("yard", yd);
-    			eenheden.put("mile", mi);
+			
+				eenheden.put(distanceUnits[0], mm);
+    			eenheden.put(distanceUnits[1], cm);
+    			eenheden.put(distanceUnits[2], dm);
+    			eenheden.put(distanceUnits[3], m);
+    			eenheden.put(distanceUnits[4], dam);
+    			eenheden.put(distanceUnits[5], hm);
+    			eenheden.put(distanceUnits[6], km);
+    			eenheden.put(distanceUnits[7], in);
+    			eenheden.put(distanceUnits[8], ft);
+    			eenheden.put(distanceUnits[9], yd);
+    			eenheden.put(distanceUnits[10], mi);
     			eenheden.put("gram", g);
     			eenheden.put("kilogram", kg);
     			eenheden.put("grain", gr);
@@ -216,6 +249,7 @@ public class MainActivity extends Activity {
     			eenheden.put("gallon (US)", usgal);
     			eenheden.put("kilometer/uur", kph);
     			eenheden.put("meter/s", mps);
+				eenheden.put("knopen", knoop);
     			eenheden.put("mijl/uur", mph);
     			eenheden.put("celsius", c);
     			eenheden.put("kelvin", k);

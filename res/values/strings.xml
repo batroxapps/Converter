@@ -3,10 +3,58 @@
 
     <string name="app_name">Converter</string>
     <string name="action_settings">Settings</string>
+	
+	<!-->
+		main activity layout strings
+	</!-->
     <string name="left_txt">From</string>
     <string name="btn_convert">Convert</string>
     <string name="txtv_uitkomst_def">Result</string>
 	<string name="btn_switch">Switch</string>
 	<string name="btn_presets">Manage presets</string>
+	
+	<!-->
+		preset activity layout strings
+	</!-->
+	
+	<string name="btn_save_preset">Save</string>
+	
+	<!-->
+		unit & measure strings(arrays)
+	</!-->
+	<!-->Measures</!-->
+	<string-array name="measures">
+		<item>length</item>
+		<item>weight</item>
+		<item>volume</item>
+		<item>speed</item>
+		<item>temperature</item>
+	</string-array>
+	<!-->Length</!-->
+	<string-array name="length_units">
+		<item>millimeters</item>
+		<item>centimeters</item>
+		<item>decimeters</item>
+		<item>meters</item>
+		<item>decameters</item>
+		<item>hectometers</item>
+		<item>kilometers</item>
+		<item>inches</item>
+		<item>feet</item>
+		<item>yards</item>
+		<item>miles</item>
+	</string-array>
+	<!-->Weight</!-->
+	<string name="g">grams</string>
+	<string name="kg">kilograms</string>
+	<string name="grains">grains</string>
+	<string name="drams">drams</string>
+	<string name="oz">ounces</string>
+	<string name="lbs">pounds</string>
+	<!-->Volume</!-->
+	<string name="ml">milliliters</string>
+	<string name="mcup">metric cups</string>
+	<string name="l">liters</string>
+	
 
 </resources>

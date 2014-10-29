@@ -1,10 +1,29 @@
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:columnCount="3"
-    android:rowCount="2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+	android:orientation="vertical"
 	android:gravity="center">
 	
+	<Spinner android:id="@+id/spn_preset_links"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:entries="@array/length_units"/>
+		
+	<Spinner android:id="@+id/spn_preset_rechts"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:entries="@array/length_units"/>
+		
+	<Spinner android:id="@+id/spn_preset_grootheid"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:entries="@array/measures"/>
+		
+	<Button android:id="@+id/btn_save_preset" 
+		android:text="@string/btn_save_preset"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:onClick="savePreset"/>
 	
-</GridLayout>
+</LinearLayout>
