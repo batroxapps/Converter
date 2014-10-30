@@ -309,8 +309,8 @@ public class MainActivity extends Activity {
     			eenheden.put(weightUnits[5], lb);
 				
     			eenheden.put(volumeUnits[0], ml);
-    			eenheden.put(volumeUnits[1], l);
-    			eenheden.put(volumeUnits[2], mcup);
+    			eenheden.put(volumeUnits[1], mcup);
+    			eenheden.put(volumeUnits[2], l);
     			eenheden.put(volumeUnits[3], impfloz);
     			eenheden.put(volumeUnits[4], impcup);
     			eenheden.put(volumeUnits[5], imppt);
