@@ -10,6 +10,8 @@ import bartold.omzetter.preset.PresetManagerActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import android.app.Activity;
 
@@ -89,7 +91,7 @@ public class MainActivity extends Activity {
 	private String[] temperatuurUnits;
 	private String[] currentArray = null;
 	private String[] grootheden;
-	private static ArrayList<String> presetNames = new ArrayList<String>();
+	private static Set<String> presetNames = new HashSet<String>();
 	private static HashMap<String, Preset> presets = new HashMap<String, Preset>();
 	private Map<String, String[]> grootheidArrayMap = new HashMap<String, String[]>();
 	
@@ -99,6 +101,12 @@ public class MainActivity extends Activity {
 	
 	Spinner presetSpinner = null;
 	Button presetButton = null;
+	
+	/*
+	*
+	*	MAIN METHOD
+	*
+	*/
 	
 	@SuppressWarnings({"rawtypes", "unchecked"})
     @Override
@@ -116,11 +124,13 @@ public class MainActivity extends Activity {
 		
 		initPresets();
 		loadSpinnerEvents();
-		write("5");
-		System.out.println((String)linksSpinner.getSelectedItem());
-		System.out.println((String)rechtsSpinner.getSelectedItem());
     }
 	
+	/*
+	*
+	*	loads the units and the measures into their arrays
+	*
+	*/
 	private void loadArrays(){
 		distanceUnits = getResources().getStringArray(R.array.length_units);
 		weightUnits = getResources().getStringArray(R.array.weight_units);
@@ -131,6 +141,11 @@ public class MainActivity extends Activity {
 		grootheden = getResources().getStringArray(R.array.measures);
 	}
 	
+	/*
+	*
+	*	initializes the spinners (sets the adapter for the middle spinner)
+	*
+	*/
 	private void initSpinners(){
 		linksSpinner = (Spinner) findViewById(R.id.eenheid_spinner_links);
         middenSpinner = (Spinner) findViewById(R.id.grootheid_spinner);
@@ -143,6 +158,11 @@ public class MainActivity extends Activity {
         setSpinnerArrays();
 	}
 
+	/*
+	*
+	*	initializes the preset spinner, the preset names set and the preset map
+	*
+	*/
 	private void initPresets(){
 		presetSpinner = (Spinner) findViewById(R.id.spn_presets);
 		presetButton = (Button) findViewById(R.id.btn_presets);
@@ -150,21 +170,44 @@ public class MainActivity extends Activity {
 		loadPresetArrayLists();
 		
 		// adapter for the preset spinner
-		ArrayAdapter presetAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, convertArrayListToArray(presetNames));
+		ArrayAdapter presetAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, presetNames.toArray(new String[presetNames.size()]));
 		presetSpinner.setAdapter(presetAdapter);
 	}
 	
+	/*
+	*
+	*	adds the name of a preset to the set and the preset itself to the map
+	*
+	*/
 	public static void addPreset(Preset preset){
 		presetNames.add(preset.getName());
 		presets.put(preset.getName(), preset);
-		
 	}
 	
+	/*
+	*
+	*	returns the size of the presets map
+	*
+	*/
+	public static int getPresetsSize(){
+		return presets.size();
+	}
+	
+	/*
+	*
+	*	calls the methods to load the events on the preset and middle spinner
+	*
+	*/
 	private void loadSpinnerEvents(){
 		loadMiddenSpinnerEvents();
         loadPresetSpinnerEvents();
 	}
 	
+	/*
+	*
+	*	loads the events on the middle spinner
+	*
+	*/
 	private void loadMiddenSpinnerEvents(){
 		middenSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -180,6 +223,11 @@ public class MainActivity extends Activity {
         );
 	}
 	
+	/*
+	*
+	*	loads the events on the preset spinner
+	*
+	*/
 	private void loadPresetSpinnerEvents(){
 		presetSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 			
@@ -213,16 +261,11 @@ public class MainActivity extends Activity {
 						int leftSpinnerPos = rechtsAdapter.getPosition(links);
 						int rightSpinnerPos = linksAdapter.getPosition(rechts);
 						
-						write("1");
 						linksSpinner.setSelection(leftSpinnerPos);
-						System.out.println((String)linksSpinner.getSelectedItem());
 						rechtsSpinner.setSelection(rightSpinnerPos);
-						System.out.println((String)rechtsSpinner.getSelectedItem());
-						System.out.println(midSpinnerPos + ", " + leftSpinnerPos + ", " + rightSpinnerPos);
+						
+						convert((Button) findViewById(R.id.btn_convert));
 					}
-					write("2");
-					System.out.println((String)linksSpinner.getSelectedItem());
-					System.out.println((String)rechtsSpinner.getSelectedItem());
 				}
 			
 				
@@ -239,6 +282,11 @@ public class MainActivity extends Activity {
         return true;
     }
     
+	/*
+	*
+	*	loads the map with the units
+	*
+	*/
     private void loadEenheidHashMap(){
     	//load hashmap : tekst in combobox - eenheden objecten
 				eenheden.put(distanceUnits[0], mm);
@@ -279,12 +327,16 @@ public class MainActivity extends Activity {
 				eenheden.put(speedUnits[2], knoop);
     			eenheden.put(speedUnits[3], mph);
 				
-    			eenheden.put(temperatuurUnits[0], c);
-    			eenheden.put(temperatuurUnits[1], k);
+    			eenheden.put(temperatuurUnits[0], k);
+    			eenheden.put(temperatuurUnits[1], c);
     			eenheden.put(temperatuurUnits[2], f);
     }
     
-    // loads the HashMap which holds the arrays and their "grootheid"
+    /*
+	*
+	*	loads the HashMap which holds the arrays and their "grootheid"(measure)
+	*
+	*/
     private void loadGrootheidArrayMap(){
     	grootheidArrayMap.put(grootheden[0], distanceUnits);
     	grootheidArrayMap.put(grootheden[1], weightUnits);
@@ -293,7 +345,11 @@ public class MainActivity extends Activity {
     	grootheidArrayMap.put(grootheden[4], temperatuurUnits);
     }
 	
-	// loads the presets into the ArrayList
+	/*
+	*
+	*	loads the presets into the ArrayList
+	*
+	*/
 	private void loadPresetArrayLists(){
 		// try{
 			// if(presetSpinner.getAdapter().getItem(0) != null)
@@ -301,6 +357,11 @@ public class MainActivity extends Activity {
 		// }catch(Exception e){}
 	}
     
+	/*
+	*
+	*	converts the units	
+	*
+	*/
     public void convert(View button){
     	EditText txtFrom = (EditText) findViewById(R.id.txt_from);
     	TextView tvUitkomst = (TextView) findViewById(R.id.txtv_uitkomst);
@@ -313,6 +374,11 @@ public class MainActivity extends Activity {
     	tvUitkomst.setText(String.valueOf(uitkomst));
 	}
     
+	/*
+	*
+	*	sets the contents of the spinner according to the measure selected	
+	*
+	*/
     @SuppressWarnings({"rawtypes", "unchecked"})
     private void setSpinnerArrays(){
     	currentArray = getCurrentArray();
@@ -324,11 +390,14 @@ public class MainActivity extends Activity {
 			linksSpinner.setAdapter(tempAdapter);
 			rechtsSpinner.setAdapter(tempAdapter);
 		}
-		write("10");
-		System.out.println((String)linksSpinner.getSelectedItem());
-		System.out.println((String)rechtsSpinner.getSelectedItem());
     }
 	
+	/*
+	*
+	*	checks if the new array it has to be is already active	
+	*	(if this isn't checked, the presets behave weird)
+	*	
+	*/
 	private boolean isArrayActive(){
 		for(String s : currentArray){
 			if(s.equals(linksSpinner.getSelectedItem()))
@@ -337,15 +406,29 @@ public class MainActivity extends Activity {
 		return false;
 	}
     
+	/*
+	*	
+	*	returns the array that has to be in the spinners
+	*
+	*/
     private String[] getCurrentArray(){
     	return grootheidArrayMap.get((String) middenSpinner.getSelectedItem());
     }
     
+	/*
+	*
+	*	return the unit that matches the string	
+	*
+	*/
     private Eenheid getEenheid(String s){
     	return eenheden.get(s);
     }
 	
-	// switches the units (left to right, right to left)
+	/*
+	*
+	*	switches the units (left to right, right to left)
+	*
+	*/
 	public void switchUnits(View Button){
 		String oldLinksEenheid = (String)linksSpinner.getSelectedItem();
 		String oldRechtsEenheid = (String)rechtsSpinner.getSelectedItem();
@@ -362,7 +445,11 @@ public class MainActivity extends Activity {
 		convert((Button) findViewById(R.id.btn_convert));
 	}
 	
-	//opens the activity to manage the presets
+	/*
+	*
+	*	opens the activity to manage the presets
+	*
+	*/
 	public void openPresetManagerActivity(View Button){
 		Intent intent = new Intent(this, PresetManagerActivity.class);
 		startActivity(intent);

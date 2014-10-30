@@ -8,11 +8,13 @@ public abstract class Eenheid{
 	public static final int SYSTEM_METRIC = 0;
 	public static final int SYSTEM_IMPERIAL = 1;
 	public static final int SYSTEM_US = 2;
+	
 	public static final int GROOTHEID_DISTANCE = 0;
 	public static final int GROOTHEID_WEIGHT = 1;
 	public static final int GROOTHEID_VOLUME = 2;
 	public static final int GROOTHEID_SPEED = 3;
 	public static final int GROOTHEID_TEMPERATUUR = 4;
+	
 	public static final int[] GROOTHEDEN = {GROOTHEID_DISTANCE, GROOTHEID_WEIGHT, GROOTHEID_VOLUME, GROOTHEID_SPEED, GROOTHEID_TEMPERATUUR};
 	@SuppressWarnings("unused")
 	private String eenheid = "";

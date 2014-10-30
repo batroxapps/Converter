@@ -16,8 +16,9 @@
 	<!-->
 		preset activity layout strings
 	</!-->
-	
 	<string name="btn_save_preset">Save</string>
+	<string name="preset_added">Preset added!</string>
+	<string name="preset_already_exists">Preset already exists!</string>
 	
 	<!-->
 		unit & measure strings(arrays)

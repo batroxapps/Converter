@@ -2,6 +2,7 @@ package bartold.omzetter.preset;
 
 import static bartold.util.Utils.*;
 
+import bartold.omzetter.MainActivity;
 import bartold.omzetter.preset.Preset;
 import bartold.omzetter.R;
 
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +56,13 @@ public class PresetManagerActivity extends Activity{
 		String groot = (String) spnGrootheid.getSelectedItem();
 		String links = (String) spnEenheidLinks.getSelectedItem();
 		String rechts = (String) spnEenheidRechts.getSelectedItem();
-		bartold.omzetter.MainActivity.addPreset(new Preset(groot, links, rechts));
+		int oldSize = MainActivity.getPresetsSize();
+		MainActivity.addPreset(new Preset(groot, links, rechts));
+		int newSize = MainActivity.getPresetsSize();
+		if(newSize > oldSize)
+			Toast.makeText(this, getResources().getString(R.string.preset_added), Toast.LENGTH_SHORT).show();
+		else
+			Toast.makeText(this, getResources().getString(R.string.preset_already_exists), Toast.LENGTH_SHORT).show();
 	}
 	
 	private void loadArrays(){
