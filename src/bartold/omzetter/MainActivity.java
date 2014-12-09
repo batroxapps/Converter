@@ -200,6 +200,7 @@ public class MainActivity extends Activity {
 	*/
 	private void loadSpinnerEvents(){
 		loadMiddenSpinnerEvents();
+		loadUnitSpinnerEvents();
         loadPresetSpinnerEvents();
 	}
 	
@@ -225,6 +226,62 @@ public class MainActivity extends Activity {
 	
 	/*
 	*
+	*	loads the events on the units spinners
+	*
+	*/
+	private void loadUnitSpinnerEvents(){
+	
+		linksSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+				
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					Preset currentPreset = null;
+					if(!presetSpinner.getSelectedItem().equals(" ")){
+						currentPreset = presets.get(presetSpinner.getSelectedItem());
+					}
+					
+					if(!presetSpinner.getSelectedItem().equals(" ") && !(linksSpinner.getSelectedItem().equals(currentPreset.getEenheidFrom()) && rechtsSpinner.getSelectedItem().equals(currentPreset.getEenheidTo()))){
+						ArrayAdapter tmpAdapt = (ArrayAdapter) presetSpinner.getAdapter();
+						
+						int presetSpinnerPos = tmpAdapt.getPosition(" ");
+						
+						presetSpinner.setSelection(presetSpinnerPos);
+					}
+				}
+				
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {}
+				
+			}
+		);
+		
+		rechtsSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+				
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					Preset currentPreset = null;
+					if(!presetSpinner.getSelectedItem().equals(" ")){
+						currentPreset = presets.get(presetSpinner.getSelectedItem());
+					}
+				
+					if(!presetSpinner.getSelectedItem().equals(" ") && !(linksSpinner.getSelectedItem().equals(currentPreset.getEenheidFrom()) && rechtsSpinner.getSelectedItem().equals(currentPreset.getEenheidTo()))){
+						ArrayAdapter tmpAdapt = (ArrayAdapter) presetSpinner.getAdapter();
+						
+						int presetSpinnerPos = tmpAdapt.getPosition(" ");
+						
+						presetSpinner.setSelection(presetSpinnerPos);
+					}
+				}
+				
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {}
+				
+			}
+		);
+	}
+	
+	/*
+	*
 	*	loads the events on the preset spinner
 	*
 	*/
@@ -238,7 +295,7 @@ public class MainActivity extends Activity {
 				public void onItemSelected(AdapterView<?> parent, View arg1, int pos, long arg3){
 					String preset = (String) parent.getItemAtPosition(pos);
 					
-					if(!preset.equals("test")){
+					if(!preset.equals(" ")){
 						Preset p = presets.get(preset);
 						System.out.println(p.getName() + p.getGrootheid() + p.getEenheidFrom() + p.getEenheidTo());
 						
@@ -351,6 +408,7 @@ public class MainActivity extends Activity {
 	*
 	*/
 	private void loadPresetArrayLists(){
+		presetNames.add(" ");
 		// try{
 			// if(presetSpinner.getAdapter().getItem(0) != null)
 				// presetNames.add("test");
