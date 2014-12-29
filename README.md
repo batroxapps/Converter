@@ -4,8 +4,8 @@ An app for Android, allowing you to convert units to another system (eg from met
 
 Most of the functionality is ready, the only thing that has to be completed is the layout.
 
-Features: - Easy switching between weight, volume, temperature, speed and length. \n
-	  - Ability to add presets (WIP, they aren't saved yet and I'm working on the acitivity). \n
-	  - Easy switching between imperial and metric. \n
+Features: - Easy switching between weight, volume, temperature, speed and length.
+	  - Ability to add presets (WIP, they aren't saved yet and I'm working on the acitivity).
+	  - Easy switching between imperial and metric.
 
 Optimized for normal screens (470dp x 320dp) at the moment
