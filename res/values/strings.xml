@@ -39,7 +39,14 @@
 		<item>Temperature</item>
 	</string-array>
 	<!-->Length</!-->
-	<string-array name="length_units">
+	<string-array name="length_units_imp">
+		<item>in</item>
+		<item>ft</item>
+		<item>yd</item>
+		<item>mi</item>
+	</string-array>
+	
+	<string-array name="length_units_metric">
 		<item>mm</item>
 		<item>cm</item>
 		<item>dm</item>
@@ -47,25 +54,21 @@
 		<item>dam</item>
 		<item>hm</item>
 		<item>km</item>
-		<item>in</item>
-		<item>ft</item>
-		<item>yd</item>
-		<item>mi</item>
 	</string-array>
 	<!-->Weight</!-->
-	<string-array name="weight_units">
-		<item>g</item>
-		<item>kg</item>
+	<string-array name="weight_units_imp">
 		<item>gr</item>
 		<item>dr</item>
 		<item>oz</item>
 		<item>lbs</item>
 	</string-array>
+	
+	<string-array name="weight_units_metric">
+		<item>g</item>
+		<item>kg</item>
+	</string-array>
 	<!-->Volume</!-->
-	<string-array name="volume_units">
-		<item>ml</item>
-		<item>cup</item>
-		<item>l</item>
+	<string-array name="volume_units_imp">
 		<item>fl oz(imp)</item>
 		<item>cup(imp)</item>
 		<item>pt(imp)</item>
@@ -77,18 +80,30 @@
 		<item>qt(US)</item>
 		<item>gal(US)</item>
 	</string-array>
+	
+	<string-array name="volume_units_metric">
+		<item>ml</item>
+		<item>cup</item>
+		<item>l</item>
+	</string-array>
 	<!-->Speed</!-->
-	<string-array name="speed_units">
+	<string-array name="speed_units_imp">
+		<item>m/h</item>
+	</string-array>
+	
+	<string-array name="speed_units_metric">
 		<item>km/h</item>
 		<item>m/s</item>
 		<item>knot</item>
-		<item>m/h</item>
 	</string-array>
 	<!-->Temperature</!-->
-	<string-array name="temperature_units">
-		<item>k</item>
-		<item>c</item>
+	<string-array name="temperature_units_imp">
 		<item>f</item>
 	</string-array>
-
+	
+	<string-array name="temperature_units_metric">
+		<item>k</item>
+		<item>c</item>
+	</string-array>
+	
 </resources>

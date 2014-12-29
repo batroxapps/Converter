@@ -86,18 +86,27 @@ public class MainActivity extends Activity {
 	// us temperature units
 	private static Temperatuur f = new Temperatuur("f", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{1d}));
 	
-	private String[] distanceUnits; 
-	private String[] weightUnits;
-	private String[] volumeUnits;
-	private String[] speedUnits;
-	private String[] temperatuurUnits;
+	private String[] distanceUnitsImp; 
+	private String[] distanceUnitsMetric; 
+	private String[] weightUnitsImp;
+	private String[] weightUnitsMetric;
+	private String[] volumeUnitsImp;
+	private String[] volumeUnitsMetric;
+	private String[] speedUnitsImp;
+	private String[] speedUnitsMetric;
+	private String[] temperatuurUnitsImp;
+	private String[] temperatuurUnitsMetric;
 	private String[] currentArray = null;
 	private String[] grootheden;
 	private static Set<String> presetNames = new HashSet<String>();
 	private static HashMap<String, Preset> presets = new HashMap<String, Preset>();
-	private Map<String, String[]> grootheidArrayMap = new HashMap<String, String[]>();
+	private Map<String, String[]> grootheidArrayMapImp = new HashMap<String, String[]>();
+	private Map<String, String[]> grootheidArrayMapMetric = new HashMap<String, String[]>();
 	private String activeGrootheid = "lengte";
 	private Map<String, Integer> grootheidImagesMap = new HashMap<String, Integer>();
+	
+	private String systeemLinks = "Metric";
+	private String systeemRechts = "Imp";
 	
 	Spinner linksSpinner = null;
     Spinner rechtsSpinner = null;
@@ -141,7 +150,7 @@ public class MainActivity extends Activity {
 		// activeGrootheid = 
 		
 		loadArrays();
-		loadGrootheidArrayMap();
+		loadGrootheidArrayMaps();
         loadEenheidHashMap();
 		loadGrootheidImagesMap();
 		
@@ -171,11 +180,16 @@ public class MainActivity extends Activity {
 	*
 	*/
 	private void loadArrays(){
-		distanceUnits = getResources().getStringArray(R.array.length_units);
-		weightUnits = getResources().getStringArray(R.array.weight_units);
-		volumeUnits = getResources().getStringArray(R.array.volume_units);
-		speedUnits = getResources().getStringArray(R.array.speed_units);
-		temperatuurUnits = getResources().getStringArray(R.array.temperature_units);
+		distanceUnitsImp = getResources().getStringArray(R.array.length_units_imp);
+		distanceUnitsMetric = getResources().getStringArray(R.array.length_units_metric);
+		weightUnitsImp = getResources().getStringArray(R.array.weight_units_imp);
+		weightUnitsMetric = getResources().getStringArray(R.array.weight_units_metric);
+		volumeUnitsImp = getResources().getStringArray(R.array.volume_units_imp);
+		volumeUnitsMetric = getResources().getStringArray(R.array.volume_units_metric);
+		speedUnitsImp = getResources().getStringArray(R.array.speed_units_imp);
+		speedUnitsMetric = getResources().getStringArray(R.array.speed_units_metric);
+		temperatuurUnitsImp = getResources().getStringArray(R.array.temperature_units_imp);
+		temperatuurUnitsMetric = getResources().getStringArray(R.array.temperature_units_metric);
 		
 		grootheden = getResources().getStringArray(R.array.measures);
 	}
@@ -382,47 +396,47 @@ public class MainActivity extends Activity {
 	*/
     private void loadEenheidHashMap(){
     	//load hashmap : tekst in combobox - eenheden objecten
-				eenheden.put(distanceUnits[0], mm);
-    			eenheden.put(distanceUnits[1], cm);
-    			eenheden.put(distanceUnits[2], dm);
-    			eenheden.put(distanceUnits[3], m);
-    			eenheden.put(distanceUnits[4], dam);
-    			eenheden.put(distanceUnits[5], hm);
-    			eenheden.put(distanceUnits[6], km);
-    			eenheden.put(distanceUnits[7], in);
-    			eenheden.put(distanceUnits[8], ft);
-    			eenheden.put(distanceUnits[9], yd);
-    			eenheden.put(distanceUnits[10], mi);
+				eenheden.put(distanceUnitsMetric[0], mm);
+    			eenheden.put(distanceUnitsMetric[1], cm);
+    			eenheden.put(distanceUnitsMetric[2], dm);
+    			eenheden.put(distanceUnitsMetric[3], m);
+    			eenheden.put(distanceUnitsMetric[4], dam);
+    			eenheden.put(distanceUnitsMetric[5], hm);
+    			eenheden.put(distanceUnitsMetric[6], km);
+    			eenheden.put(distanceUnitsImp[0], in);
+    			eenheden.put(distanceUnitsImp[1], ft);
+    			eenheden.put(distanceUnitsImp[2], yd);
+    			eenheden.put(distanceUnitsImp[3], mi);
 				
-    			eenheden.put(weightUnits[0], g);
-    			eenheden.put(weightUnits[1], kg);
-    			eenheden.put(weightUnits[2], gr);
-    			eenheden.put(weightUnits[3], dr);
-    			eenheden.put(weightUnits[4], oz);
-    			eenheden.put(weightUnits[5], lb);
+    			eenheden.put(weightUnitsMetric[0], g);
+    			eenheden.put(weightUnitsMetric[1], kg);
+    			eenheden.put(weightUnitsImp[0], gr);
+    			eenheden.put(weightUnitsImp[1], dr);
+    			eenheden.put(weightUnitsImp[2], oz);
+    			eenheden.put(weightUnitsImp[3], lb);
 				
-    			eenheden.put(volumeUnits[0], ml);
-    			eenheden.put(volumeUnits[1], mcup);
-    			eenheden.put(volumeUnits[2], l);
-    			eenheden.put(volumeUnits[3], impfloz);
-    			eenheden.put(volumeUnits[4], impcup);
-    			eenheden.put(volumeUnits[5], imppt);
-    			eenheden.put(volumeUnits[6], impqt);
-    			eenheden.put(volumeUnits[7], impgal);
-    			eenheden.put(volumeUnits[8], usfloz);
-    			eenheden.put(volumeUnits[9], uscup);
-    			eenheden.put(volumeUnits[10], uspt);
-    			eenheden.put(volumeUnits[11], usqt);
-    			eenheden.put(volumeUnits[12], usgal);
+    			eenheden.put(volumeUnitsMetric[0], ml);
+    			eenheden.put(volumeUnitsMetric[1], mcup);
+    			eenheden.put(volumeUnitsMetric[2], l);
+    			eenheden.put(volumeUnitsImp[0], impfloz);
+    			eenheden.put(volumeUnitsImp[1], impcup);
+    			eenheden.put(volumeUnitsImp[2], imppt);
+    			eenheden.put(volumeUnitsImp[3], impqt);
+    			eenheden.put(volumeUnitsImp[4], impgal);
+    			eenheden.put(volumeUnitsImp[5], usfloz);
+    			eenheden.put(volumeUnitsImp[6], uscup);
+    			eenheden.put(volumeUnitsImp[7], uspt);
+    			eenheden.put(volumeUnitsImp[8], usqt);
+    			eenheden.put(volumeUnitsImp[9], usgal);
 				
-    			eenheden.put(speedUnits[0], kph);
-    			eenheden.put(speedUnits[1], mps);
-				eenheden.put(speedUnits[2], knoop);
-    			eenheden.put(speedUnits[3], mph);
+    			eenheden.put(speedUnitsMetric[0], kph);
+    			eenheden.put(speedUnitsMetric[1], mps);
+				eenheden.put(speedUnitsMetric[2], knoop);
+    			eenheden.put(speedUnitsImp[0], mph);
 				
-    			eenheden.put(temperatuurUnits[0], k);
-    			eenheden.put(temperatuurUnits[1], c);
-    			eenheden.put(temperatuurUnits[2], f);
+    			eenheden.put(temperatuurUnitsMetric[0], k);
+    			eenheden.put(temperatuurUnitsMetric[1], c);
+    			eenheden.put(temperatuurUnitsImp[0], f);
     }
     
     /*
@@ -430,12 +444,18 @@ public class MainActivity extends Activity {
 	*	loads the HashMap which holds the arrays and their "grootheid"(measure)
 	*
 	*/
-    private void loadGrootheidArrayMap(){
-    	grootheidArrayMap.put(grootheden[0], distanceUnits);
-    	grootheidArrayMap.put(grootheden[1], weightUnits);
-    	grootheidArrayMap.put(grootheden[2], volumeUnits);
-    	grootheidArrayMap.put(grootheden[3], speedUnits);
-    	grootheidArrayMap.put(grootheden[4], temperatuurUnits);
+    private void loadGrootheidArrayMaps(){
+    	grootheidArrayMapImp.put(grootheden[0], distanceUnitsImp);
+    	grootheidArrayMapImp.put(grootheden[1], weightUnitsImp);
+    	grootheidArrayMapImp.put(grootheden[2], volumeUnitsImp);
+    	grootheidArrayMapImp.put(grootheden[3], speedUnitsImp);
+    	grootheidArrayMapImp.put(grootheden[4], temperatuurUnitsImp);
+		
+		grootheidArrayMapMetric.put(grootheden[0], distanceUnitsMetric);
+    	grootheidArrayMapMetric.put(grootheden[1], weightUnitsMetric);
+    	grootheidArrayMapMetric.put(grootheden[2], volumeUnitsMetric);
+    	grootheidArrayMapMetric.put(grootheden[3], speedUnitsMetric);
+    	grootheidArrayMapMetric.put(grootheden[4], temperatuurUnitsMetric);
     }
 	
 	/*
@@ -485,15 +505,15 @@ public class MainActivity extends Activity {
 	*/
     @SuppressWarnings({"rawtypes", "unchecked"})
     private void setSpinnerArrays(){
-    	currentArray = getCurrentArray();
-    	ArrayAdapter tempAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, currentArray);
+    	ArrayAdapter linksAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getCurrentArray(systeemLinks));
+		ArrayAdapter rechtsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getCurrentArray(systeemRechts));
 
-		if(!isArrayActive()){
+		// if(!isArrayActive()){
 			linksSpinner.setAdapter(null);
 			rechtsSpinner.setAdapter(null);
-			linksSpinner.setAdapter(tempAdapter);
-			rechtsSpinner.setAdapter(tempAdapter);
-		}
+			linksSpinner.setAdapter(linksAdapter);
+			rechtsSpinner.setAdapter(rechtsAdapter);
+		// }
     }
 	
 	/*
@@ -503,7 +523,7 @@ public class MainActivity extends Activity {
 	*	
 	*/
 	private boolean isArrayActive(){
-		for(String s : currentArray){
+		for(String s : getCurrentArray(systeemLinks)){
 			if(s.equals(linksSpinner.getSelectedItem()))
 				return true;
 		}
@@ -515,8 +535,13 @@ public class MainActivity extends Activity {
 	*	returns the array that has to be in the spinners
 	*
 	*/
-    private String[] getCurrentArray(){
-    	return grootheidArrayMap.get(activeGrootheid);
+    private String[] getCurrentArray(String systeem){
+		if(systeem.equals("Metric"))
+			return grootheidArrayMapMetric.get(activeGrootheid);
+		else if (systeem.equals("Imp"))
+			return grootheidArrayMapImp.get(activeGrootheid);
+			
+		return null;
     }
     
 	/*
@@ -549,8 +574,27 @@ public class MainActivity extends Activity {
 		convert();
 	}
 	
-	public void switchSystem(View Button){
+	public void switchSystem(View button){
+		if(button == (Button)findViewById(R.id.btn_systeem_l)){
+			if(systeemLinks.equals("Metric")){
+				systeemLinks = "Imp";
+				((Button)button).setText("I");
+			}else if(systeemLinks.equals("Imp")){
+				systeemLinks = "Metric";
+				((Button)button).setText("M");
+			}
+		} 
+		if(button == (Button)findViewById(R.id.btn_systeem_r)){
+			if(systeemRechts.equals("Metric")){
+				systeemRechts = "Imp";
+				((Button)button).setText("I");
+			}else if(systeemRechts.equals("Imp")){
+				systeemRechts = "Metric";
+				((Button)button).setText("M");
+			}
+		}
 		
+		setSpinnerArrays();
 	}
 	
 	/*
