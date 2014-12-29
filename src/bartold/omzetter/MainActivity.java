@@ -25,9 +25,10 @@ import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,6 +95,8 @@ public class MainActivity extends Activity {
 	private static Set<String> presetNames = new HashSet<String>();
 	private static HashMap<String, Preset> presets = new HashMap<String, Preset>();
 	private Map<String, String[]> grootheidArrayMap = new HashMap<String, String[]>();
+	private String activeGrootheid = "lengte";
+	// private Map<String, Integer> grootheidImagesMap;
 	
 	Spinner linksSpinner = null;
     Spinner middenSpinner = null;
@@ -101,6 +104,9 @@ public class MainActivity extends Activity {
 	
 	Spinner presetSpinner = null;
 	Button presetButton = null;
+	
+	private ImageView imgLengthView;
+	private ImageView imgTempView;
 	
 	/*
 	*
@@ -114,6 +120,14 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+		// loadGrootheidImagesMap();
+		
+		this.imgLengthView = (ImageView) this.findViewById(R.id.img_length);
+		this.imgLengthView.setImageResource(R.drawable.lengte_bmp);
+		
+		this.imgTempView = (ImageView) this.findViewById(R.id.img_temp);
+		this.imgTempView.setImageResource(R.drawable.temperatuur_bmp);
+		
 		loadArrays();
 		
 		
@@ -124,6 +138,28 @@ public class MainActivity extends Activity {
 		
 		initPresets();
 		loadSpinnerEvents();
+		
+		this.imgLengthView.setOnClickListener(new View.OnClickListener() {        
+        @Override
+           public void onClick(View view) {
+				if (view == findViewById(R.id.img_length)) {     
+					imgLengthView.setImageResource(R.drawable.lengte_actief_bmp);
+					imgTempView.setImageResource(R.drawable.temperatuur_bmp);
+					activeGrootheid = "lengte";
+				}
+            }
+        });
+		
+		this.imgTempView.setOnClickListener(new View.OnClickListener() {        
+        @Override
+           public void onClick(View view) {
+				if (view == findViewById(R.id.img_temp)) {     
+					imgTempView.setImageResource(R.drawable.temperatuur_actief_bmp);
+					imgLengthView.setImageResource(R.drawable.lengte_bmp);
+					activeGrootheid = "temperatuur";
+				}
+            }
+        });
     }
 	
 	/*
@@ -165,7 +201,7 @@ public class MainActivity extends Activity {
 	*/
 	private void initPresets(){
 		presetSpinner = (Spinner) findViewById(R.id.spn_presets);
-		presetButton = (Button) findViewById(R.id.btn_presets);
+		// presetButton = (Button) findViewById(R.id.btn_presets);
 		
 		loadPresetArrayLists();
 		
@@ -404,6 +440,15 @@ public class MainActivity extends Activity {
 	
 	/*
 	*
+	*	loads the HashMap which holds the measures and their images
+	*
+	*/
+	private void loadGrootheidImagesMap(){
+		// grootheidImagesMap.put("Lengte", R.drawable.lengte_bmp);
+	}
+	
+	/*
+	*
 	*	loads the presets into the ArrayList
 	*
 	*/
@@ -501,6 +546,10 @@ public class MainActivity extends Activity {
 		rechtsSpinner.setSelection(rightSpinnerPos);
 		
 		convert((Button) findViewById(R.id.btn_convert));
+	}
+	
+	public void switchSystem(View Button){
+		
 	}
 	
 	/*

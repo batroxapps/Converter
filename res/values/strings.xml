@@ -2,11 +2,13 @@
 <resources>
 
     <string name="app_name">Converter</string>
-    <string name="action_settings">Settings</string>
 	
 	<!-->
 		main activity layout strings
 	</!-->
+	<string name="txtv_pijl">------&gt;</string>
+	<string name="btn_systeem_l">M</string>
+	<string name="btn_systeem_r">I</string>
     <string name="left_txt">From</string>
     <string name="btn_convert">Convert</string>
     <string name="txtv_uitkomst_def">Result</string>
@@ -19,6 +21,11 @@
 	<string name="btn_save_preset">Save</string>
 	<string name="preset_added">Preset added!</string>
 	<string name="preset_already_exists">Preset already exists!</string>
+	
+	<!-->
+		menu strings
+	</!-->
+	<string name="action_manage_presets">Presets</string>
 	
 	<!-->
 		unit & measure strings(arrays)
