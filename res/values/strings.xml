@@ -40,55 +40,55 @@
 	</string-array>
 	<!-->Length</!-->
 	<string-array name="length_units">
-		<item>millimeters</item>
-		<item>centimeters</item>
-		<item>decimeters</item>
-		<item>meters</item>
-		<item>decameters</item>
-		<item>hectometers</item>
-		<item>kilometers</item>
-		<item>inches</item>
-		<item>feet</item>
-		<item>yards</item>
-		<item>miles</item>
+		<item>mm</item>
+		<item>cm</item>
+		<item>dm</item>
+		<item>m</item>
+		<item>dam</item>
+		<item>hm</item>
+		<item>km</item>
+		<item>in</item>
+		<item>ft</item>
+		<item>yd</item>
+		<item>mi</item>
 	</string-array>
 	<!-->Weight</!-->
 	<string-array name="weight_units">
-		<item>grams</item>
-		<item>kilograms</item>
-		<item>grains</item>
-		<item>drams</item>
-		<item>ounces</item>
-		<item>pounds</item>
+		<item>g</item>
+		<item>kg</item>
+		<item>gr</item>
+		<item>dr</item>
+		<item>oz</item>
+		<item>lbs</item>
 	</string-array>
 	<!-->Volume</!-->
 	<string-array name="volume_units">
-		<item>milliliters</item>
-		<item>metric cups</item>
-		<item>liters</item>
-		<item>fl oz (imp)</item>
-		<item>cup (imp)</item>
-		<item>pint (imp)</item>
-		<item>quart (imp)</item>
-		<item>gallon (imp)</item>
-		<item>fl oz (US)</item>
-		<item>cup (US)</item>
-		<item>pint (US)</item>
-		<item>quart (US)</item>
-		<item>gallon (US)</item>
+		<item>ml</item>
+		<item>cup</item>
+		<item>l</item>
+		<item>fl oz(imp)</item>
+		<item>cup(imp)</item>
+		<item>pt(imp)</item>
+		<item>qt(imp)</item>
+		<item>gal(imp)</item>
+		<item>fl oz(US)</item>
+		<item>cup(US)</item>
+		<item>pt(US)</item>
+		<item>qt(US)</item>
+		<item>gal(US)</item>
 	</string-array>
 	<!-->Speed</!-->
 	<string-array name="speed_units">
-		<item>kilometers/hour</item>
-		<item>meters/second</item>
-		<item>knots</item>
-		<item>miles/hour</item>
+		<item>km/h</item>
+		<item>m/s</item>
+		<item>knot</item>
+		<item>m/h</item>
 	</string-array>
 	<!-->Temperature</!-->
 	<string-array name="temperature_units">
-		<item>kelvin</item>
-		<item>celsius</item>
-		<item>fahrenheit</item>
+		<item>k</item>
+		<item>c</item>
+		<item>f</item>
 	</string-array>
 
 </resources>

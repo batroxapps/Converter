@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!--
@@ -16,5 +17,26 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+	
+	<style parent="@android:style/Widget.EditText" name="EditText_zonder_margin">
+		<item name="android:layout_margin">0dp</item>
+	</style>
+
+	<style parent="@android:style/Widget.Spinner" name="SpinnerAsEditText">
+		<item name="android:background">@android:drawable/edit_text</item>
+		<item name="android:layout_margin">0dp</item>
+	</style>
+	
+	<style parent="@android:style/Widget.TextView" name="TextView_zonder_margin">
+		<item name="android:layout_margin">0dp</item>
+	</style>
+	
+	<style name="ImageView_style">
+		<item name="android:layout_margin">7dp</item>
+		<item name="android:layout_height">50dp</item>
+		<item name="android:layout_width">50dp</item>
+		<item name="android:background">#FF000000</item>
+	</style>
+
 
 </resources>

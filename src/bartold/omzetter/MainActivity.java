@@ -4,8 +4,7 @@ import static bartold.util.Utils.*;
 
 import bartold.omzetter.eenheid.*;
 import bartold.omzetter.eenheid.formule.Formule;
-import bartold.omzetter.preset.Preset;
-import bartold.omzetter.preset.PresetManagerActivity;
+import bartold.omzetter.preset.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +19,9 @@ import android.content.pm.ActivityInfo;
 
 import android.os.Bundle;
 
+import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -96,17 +97,34 @@ public class MainActivity extends Activity {
 	private static HashMap<String, Preset> presets = new HashMap<String, Preset>();
 	private Map<String, String[]> grootheidArrayMap = new HashMap<String, String[]>();
 	private String activeGrootheid = "lengte";
-	// private Map<String, Integer> grootheidImagesMap;
+	private Map<String, Integer> grootheidImagesMap = new HashMap<String, Integer>();
 	
 	Spinner linksSpinner = null;
-    Spinner middenSpinner = null;
     Spinner rechtsSpinner = null;
-	
 	Spinner presetSpinner = null;
-	Button presetButton = null;
+	EditText txtFrom = null;
+	
+	private int[] eenheidInactiveImages = {	R.drawable.lengte_bmp, R.drawable.gewicht_bmp, 
+											R.drawable.volume_bmp, R.drawable.snelheid_bmp,
+											R.drawable.temperatuur_bmp};
+											
+	private int[] eenheidActiveImages = {	R.drawable.lengte_actief_bmp, R.drawable.gewicht_actief_bmp, 
+											R.drawable.volume_actief_bmp, R.drawable.snelheid_actief_bmp,
+											R.drawable.temperatuur_actief_bmp};
 	
 	private ImageView imgLengthView;
+	private ImageView imgGewichtView;
+	private ImageView imgVolumeView;
+	private ImageView imgSnelheidView;
 	private ImageView imgTempView;
+	
+	private ImageView[] eenheidImageViews = new ImageView[5];
+	
+	private final int LENGTE = 0;
+	private final int GEWICHT = 1;
+	private final int VOLUME = 2;
+	private final int SNELHEID = 3;
+	private final int TEMPERATUUR = 4;
 	
 	/*
 	*
@@ -120,46 +138,31 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-		// loadGrootheidImagesMap();
-		
-		this.imgLengthView = (ImageView) this.findViewById(R.id.img_length);
-		this.imgLengthView.setImageResource(R.drawable.lengte_bmp);
-		
-		this.imgTempView = (ImageView) this.findViewById(R.id.img_temp);
-		this.imgTempView.setImageResource(R.drawable.temperatuur_bmp);
+		// activeGrootheid = 
 		
 		loadArrays();
-		
-		
 		loadGrootheidArrayMap();
         loadEenheidHashMap();
+		loadGrootheidImagesMap();
 		
+		initImageViews();
 		initSpinners();
-		
 		initPresets();
+		
+		loadImageViewEvents();
 		loadSpinnerEvents();
 		
-		this.imgLengthView.setOnClickListener(new View.OnClickListener() {        
-        @Override
-           public void onClick(View view) {
-				if (view == findViewById(R.id.img_length)) {     
-					imgLengthView.setImageResource(R.drawable.lengte_actief_bmp);
-					imgTempView.setImageResource(R.drawable.temperatuur_bmp);
-					activeGrootheid = "lengte";
+		txtFrom = (EditText) findViewById(R.id.txt_from);
+		txtFrom.setOnKeyListener(new View.OnKeyListener(){
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event){
+				if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+					convert();
+					return true;
 				}
-            }
-        });
-		
-		this.imgTempView.setOnClickListener(new View.OnClickListener() {        
-        @Override
-           public void onClick(View view) {
-				if (view == findViewById(R.id.img_temp)) {     
-					imgTempView.setImageResource(R.drawable.temperatuur_actief_bmp);
-					imgLengthView.setImageResource(R.drawable.lengte_bmp);
-					activeGrootheid = "temperatuur";
-				}
-            }
-        });
+				return false;
+			}
+		});
     }
 	
 	/*
@@ -184,12 +187,7 @@ public class MainActivity extends Activity {
 	*/
 	private void initSpinners(){
 		linksSpinner = (Spinner) findViewById(R.id.eenheid_spinner_links);
-        middenSpinner = (Spinner) findViewById(R.id.grootheid_spinner);
         rechtsSpinner = (Spinner) findViewById(R.id.eenheid_spinner_rechts);
-		
-		// adapter for the grootheid spinner
-        ArrayAdapter middenAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, grootheden);
-        middenSpinner.setAdapter(middenAdapter);
         
         setSpinnerArrays();
 	}
@@ -208,6 +206,34 @@ public class MainActivity extends Activity {
 		// adapter for the preset spinner
 		ArrayAdapter presetAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, presetNames.toArray(new String[presetNames.size()]));
 		presetSpinner.setAdapter(presetAdapter);
+	}
+	
+	private void initImageViews(){
+		this.imgLengthView = (ImageView) this.findViewById(R.id.img_length);		
+		this.imgGewichtView = (ImageView) this.findViewById(R.id.img_gewicht);
+		this.imgVolumeView = (ImageView) this.findViewById(R.id.img_volume);
+		this.imgSnelheidView = (ImageView) this.findViewById(R.id.img_snelheid);
+		this.imgTempView = (ImageView) this.findViewById(R.id.img_temp);
+		
+		eenheidImageViews[0] = imgLengthView;
+		eenheidImageViews[1] = imgGewichtView;
+		eenheidImageViews[2] = imgVolumeView;
+		eenheidImageViews[3] = imgSnelheidView;
+		eenheidImageViews[4] = imgTempView;
+		
+		deactivateImages();
+		activateImage(LENGTE);
+	}
+	
+	private void deactivateImages(){
+		for(int i = 0; i < 5; i++){
+			eenheidImageViews[i].setImageResource(eenheidInactiveImages[i]);
+		}
+	}
+	
+	private void activateImage(int i){
+		eenheidImageViews[i].setImageResource(eenheidActiveImages[i]);
+		activeGrootheid = grootheden[i];
 	}
 	
 	/*
@@ -235,29 +261,8 @@ public class MainActivity extends Activity {
 	*
 	*/
 	private void loadSpinnerEvents(){
-		loadMiddenSpinnerEvents();
 		loadUnitSpinnerEvents();
         loadPresetSpinnerEvents();
-	}
-	
-	/*
-	*
-	*	loads the events on the middle spinner
-	*
-	*/
-	private void loadMiddenSpinnerEvents(){
-		middenSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
-
-				@Override
-				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					setSpinnerArrays();
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {}
-        		
-        	}
-        );
 	}
 	
 	/*
@@ -283,6 +288,7 @@ public class MainActivity extends Activity {
 						
 						presetSpinner.setSelection(presetSpinnerPos);
 					}
+					convert();
 				}
 				
 				@Override
@@ -307,6 +313,7 @@ public class MainActivity extends Activity {
 						
 						presetSpinner.setSelection(presetSpinnerPos);
 					}
+					convert();
 				}
 				
 				@Override
@@ -335,16 +342,9 @@ public class MainActivity extends Activity {
 						Preset p = presets.get(preset);
 						System.out.println(p.getName() + p.getGrootheid() + p.getEenheidFrom() + p.getEenheidTo());
 						
-						String groot = p.getGrootheid();
+						activeGrootheid = p.getGrootheid();
 						String links = p.getEenheidFrom();
 						String rechts = p.getEenheidTo();
-						
-						ArrayAdapter grootheidAdapter = (ArrayAdapter) middenSpinner.getAdapter();
-						
-						int midSpinnerPos = grootheidAdapter.getPosition(groot);
-						
-						middenSpinner.setSelection(midSpinnerPos);
-						System.out.println((String)middenSpinner.getSelectedItem());
 						
 						setSpinnerArrays();
 						
@@ -357,7 +357,7 @@ public class MainActivity extends Activity {
 						linksSpinner.setSelection(leftSpinnerPos);
 						rechtsSpinner.setSelection(rightSpinnerPos);
 						
-						convert((Button) findViewById(R.id.btn_convert));
+						convert();
 					}
 				}
 			
@@ -444,7 +444,8 @@ public class MainActivity extends Activity {
 	*
 	*/
 	private void loadGrootheidImagesMap(){
-		// grootheidImagesMap.put("Lengte", R.drawable.lengte_bmp);
+		grootheidImagesMap.put(grootheden[0], R.drawable.lengte_bmp);
+		grootheidImagesMap.put(grootheden[4], R.drawable.temperatuur_bmp);
 	}
 	
 	/*
@@ -465,7 +466,7 @@ public class MainActivity extends Activity {
 	*	converts the units	
 	*
 	*/
-    public void convert(View button){
+    public void convert(){
     	EditText txtFrom = (EditText) findViewById(R.id.txt_from);
     	TextView tvUitkomst = (TextView) findViewById(R.id.txtv_uitkomst);
     	double uitkomst = 0;
@@ -515,7 +516,7 @@ public class MainActivity extends Activity {
 	*
 	*/
     private String[] getCurrentArray(){
-    	return grootheidArrayMap.get((String) middenSpinner.getSelectedItem());
+    	return grootheidArrayMap.get(activeGrootheid);
     }
     
 	/*
@@ -545,7 +546,7 @@ public class MainActivity extends Activity {
 		linksSpinner.setSelection(leftSpinnerPos);
 		rechtsSpinner.setSelection(rightSpinnerPos);
 		
-		convert((Button) findViewById(R.id.btn_convert));
+		convert();
 	}
 	
 	public void switchSystem(View Button){
@@ -557,8 +558,24 @@ public class MainActivity extends Activity {
 	*	opens the activity to manage the presets
 	*
 	*/
-	public void openPresetManagerActivity(View Button){
+	public void openPresetManagerActivity(MenuItem item){
 		Intent intent = new Intent(this, PresetManagerActivity.class);
 		startActivity(intent);
+	}
+	
+	private void loadImageViewEvents(){
+		for(int j = 0; j < 5; j++){
+			final int i = j;
+			eenheidImageViews[i].setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view){
+					if (view == eenheidImageViews[i]){
+						deactivateImages();
+						activateImage(i);
+						setSpinnerArrays();
+					}
+				}
+			});
+		}
 	}
 }
