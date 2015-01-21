@@ -2,6 +2,7 @@ package bartold.omzetter;
 
 import static bartold.util.Utils.*;
 
+import bartold.omzetter.DataManager;
 import bartold.omzetter.eenheid.*;
 import bartold.omzetter.eenheid.formule.Formule;
 import bartold.omzetter.preset.*;
@@ -36,66 +37,18 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	private static HashMap<String, Eenheid> eenheden = new HashMap<String, Eenheid>();
-	//Distance metric units
-	private static Distance mm = new Distance("mm", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1000d}));
-	private static Distance cm = new Distance("cm", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{100d}));
-	private static Distance dm = new Distance("dm", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{10d}));
-	private static Distance m = new Distance("m", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1d}));
-	private static Distance dam = new Distance("dam", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{10d}));
-	private static Distance hm = new Distance("hm", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{100d}));
-	private static Distance km = new Distance("km", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1000d}));
-	//Distance imperial units
-	private static Distance in = new Distance("in", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{12d}));
-	private static Distance ft = new Distance("ft", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{1d}));
-	private static Distance yd = new Distance("yd", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{3d}));
-	private static Distance mi = new Distance("mi", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{5280d}));
-	// Weight metric units
-	private static Weight g = new Weight("g", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1000d}));
-	private static Weight kg = new Weight("kg", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1d}));
-	// Weight imperial units
-	private static Weight gr = new Weight("gr", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{7000d}));
-	private static Weight dr = new Weight("dr", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{256d}));
-	private static Weight oz = new Weight("oz", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{16d}));
-	private static Weight lb = new Weight("lb", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{1d}));
-	// Volume metric units
-	private static Volume ml = new Volume("ml", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1000d}));
-	private static Volume mcup = new Volume("metric cup", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{4d}));
-	private static Volume l = new Volume("l", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1d}));
-	// Volume imperial units
-	private static Volume impfloz = new Volume("imp fl oz", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{20d}));
-	private static Volume impcup = new Volume("imp cup", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{2d}));
-	private static Volume imppt = new Volume("imp pt", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{1d}));
-	private static Volume impqt = new Volume("imp qt", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{2d}));
-	private static Volume impgal = new Volume("imp gal", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{8d}));
-	// Volume US units
-	private static Volume usfloz = new Volume("us fl oz", Eenheid.SYSTEM_US, new Formule(new String[]{"/"}, new Double[]{16d}));
-	private static Volume uscup = new Volume("us cup", Eenheid.SYSTEM_US, new Formule(new String[]{"/"}, new Double[]{2d}));
-	private static Volume uspt = new Volume("us pt", Eenheid.SYSTEM_US, new Formule(new String[]{"/"}, new Double[]{1d}));
-	private static Volume usqt = new Volume("us qt", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{2d}));
-	private static Volume usgal = new Volume("us gal", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{8d}));
-	// Speed metric units
-	private static Speed kph = new Speed("kph", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1d}));
-	private static Speed mps = new Speed("mps", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{3.6d}));
-	private static Speed knoop = new Speed("knopen", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1.852d}));
-	// Speed imperial units
-	private static Speed mph = new Speed("mph", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{1d}));
-	// metric temperatuur units (Kelvin is initizialized as imperial, but is metric
-	private static Temperatuur c = new Temperatuur("c", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1d}));
-	private static Temperatuur k = new Temperatuur("k", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"-"}, new Double[]{273.15}));
-	// us temperature units
-	private static Temperatuur f = new Temperatuur("f", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{1d}));
+	private static HashMap<String, Eenheid> eenhedenMap = new HashMap<String, Eenheid>();
 	
-	private String[] distanceUnitsImp; 
-	private String[] distanceUnitsMetric; 
-	private String[] weightUnitsImp;
-	private String[] weightUnitsMetric;
-	private String[] volumeUnitsImp;
-	private String[] volumeUnitsMetric;
-	private String[] speedUnitsImp;
-	private String[] speedUnitsMetric;
-	private String[] temperatuurUnitsImp;
-	private String[] temperatuurUnitsMetric;
+	// private String[] distanceUnitsImp; 
+	// private String[] distanceUnitsMetric; 
+	// private String[] weightUnitsImp;
+	// private String[] weightUnitsMetric;
+	// private String[] volumeUnitsImp;
+	// private String[] volumeUnitsMetric;
+	// private String[] speedUnitsImp;
+	// private String[] speedUnitsMetric;
+	// private String[] temperatuurUnitsImp;
+	// private String[] temperatuurUnitsMetric;
 	private String[] currentArray = null;
 	private String[] grootheden;
 	private static Set<String> presetNames = new HashSet<String>();
@@ -134,7 +87,7 @@ public class MainActivity extends Activity {
 	private ImageView imgSnelheidView;
 	private ImageView imgTempView;
 	
-	private ImageView[] eenheidImageViews = new ImageView[5];
+	private ImageView[] grootheidImageViews = new ImageView[5];
 	
 	private final int LENGTE = 0;
 	private final int GEWICHT = 1;
@@ -154,7 +107,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-		// activeGrootheid = 
+		DataManager.init(this);
 		
 		loadArrays();
 		loadGrootheidArrayMaps();
@@ -188,18 +141,20 @@ public class MainActivity extends Activity {
 	*
 	*/
 	private void loadArrays(){
-		distanceUnitsImp = getResources().getStringArray(R.array.length_units_imp);
-		distanceUnitsMetric = getResources().getStringArray(R.array.length_units_metric);
-		weightUnitsImp = getResources().getStringArray(R.array.weight_units_imp);
-		weightUnitsMetric = getResources().getStringArray(R.array.weight_units_metric);
-		volumeUnitsImp = getResources().getStringArray(R.array.volume_units_imp);
-		volumeUnitsMetric = getResources().getStringArray(R.array.volume_units_metric);
-		speedUnitsImp = getResources().getStringArray(R.array.speed_units_imp);
-		speedUnitsMetric = getResources().getStringArray(R.array.speed_units_metric);
-		temperatuurUnitsImp = getResources().getStringArray(R.array.temperature_units_imp);
-		temperatuurUnitsMetric = getResources().getStringArray(R.array.temperature_units_metric);
-		
-		grootheden = getResources().getStringArray(R.array.measures);
+		grootheden = DataManager.getGrootheden();
+	}
+	
+	private void loadGrootheidArrayMaps(){
+    	grootheidArrayMapImp = DataManager.getGrootheidArrayMapImp();
+		grootheidArrayMapMetric = DataManager.getGrootheidArrayMapMetric();
+    }
+	
+	private void loadEenheidHashMap(){
+    	eenhedenMap = DataManager.getEenhedenHashMap();
+    }
+	
+	private void loadSysteemImagesMap(){
+		systeemImagesMap = DataManager.getSysteemImagesMap();
 	}
 	
 	/*
@@ -231,17 +186,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private void initImageViews(){
-		this.imgLengthView = (ImageView) this.findViewById(R.id.img_length);		
-		this.imgGewichtView = (ImageView) this.findViewById(R.id.img_gewicht);
-		this.imgVolumeView = (ImageView) this.findViewById(R.id.img_volume);
-		this.imgSnelheidView = (ImageView) this.findViewById(R.id.img_snelheid);
-		this.imgTempView = (ImageView) this.findViewById(R.id.img_temp);
-		
-		eenheidImageViews[0] = imgLengthView;
-		eenheidImageViews[1] = imgGewichtView;
-		eenheidImageViews[2] = imgVolumeView;
-		eenheidImageViews[3] = imgSnelheidView;
-		eenheidImageViews[4] = imgTempView;
+		grootheidImageViews = DataManager.getGrootheidImageViews();
 		
 		deactivateImages();
 		activateImage(LENGTE);
@@ -255,12 +200,12 @@ public class MainActivity extends Activity {
 	
 	private void deactivateImages(){
 		for(int i = 0; i < 5; i++){
-			eenheidImageViews[i].setImageResource(eenheidInactiveImages[i]);
+			grootheidImageViews[i].setImageResource(eenheidInactiveImages[i]);
 		}
 	}
 	
 	private void activateImage(int i){
-		eenheidImageViews[i].setImageResource(eenheidActiveImages[i]);
+		grootheidImageViews[i].setImageResource(eenheidActiveImages[i]);
 		activeGrootheid = grootheden[i];
 	}
 	
@@ -403,79 +348,19 @@ public class MainActivity extends Activity {
         return true;
     }
     
-	/*
+	/* 
 	*
 	*	loads the map with the units
 	*
 	*/
-    private void loadEenheidHashMap(){
-    	//load hashmap : tekst in combobox - eenheden objecten
-				eenheden.put(distanceUnitsMetric[0], mm);
-    			eenheden.put(distanceUnitsMetric[1], cm);
-    			eenheden.put(distanceUnitsMetric[2], dm);
-    			eenheden.put(distanceUnitsMetric[3], m);
-    			eenheden.put(distanceUnitsMetric[4], dam);
-    			eenheden.put(distanceUnitsMetric[5], hm);
-    			eenheden.put(distanceUnitsMetric[6], km);
-    			eenheden.put(distanceUnitsImp[0], in);
-    			eenheden.put(distanceUnitsImp[1], ft);
-    			eenheden.put(distanceUnitsImp[2], yd);
-    			eenheden.put(distanceUnitsImp[3], mi);
-				
-    			eenheden.put(weightUnitsMetric[0], g);
-    			eenheden.put(weightUnitsMetric[1], kg);
-    			eenheden.put(weightUnitsImp[0], gr);
-    			eenheden.put(weightUnitsImp[1], dr);
-    			eenheden.put(weightUnitsImp[2], oz);
-    			eenheden.put(weightUnitsImp[3], lb);
-				
-    			eenheden.put(volumeUnitsMetric[0], ml);
-    			eenheden.put(volumeUnitsMetric[1], mcup);
-    			eenheden.put(volumeUnitsMetric[2], l);
-    			eenheden.put(volumeUnitsImp[0], impfloz);
-    			eenheden.put(volumeUnitsImp[1], impcup);
-    			eenheden.put(volumeUnitsImp[2], imppt);
-    			eenheden.put(volumeUnitsImp[3], impqt);
-    			eenheden.put(volumeUnitsImp[4], impgal);
-    			eenheden.put(volumeUnitsImp[5], usfloz);
-    			eenheden.put(volumeUnitsImp[6], uscup);
-    			eenheden.put(volumeUnitsImp[7], uspt);
-    			eenheden.put(volumeUnitsImp[8], usqt);
-    			eenheden.put(volumeUnitsImp[9], usgal);
-				
-    			eenheden.put(speedUnitsMetric[0], kph);
-    			eenheden.put(speedUnitsMetric[1], mps);
-				eenheden.put(speedUnitsMetric[2], knoop);
-    			eenheden.put(speedUnitsImp[0], mph);
-				
-    			eenheden.put(temperatuurUnitsMetric[0], k);
-    			eenheden.put(temperatuurUnitsMetric[1], c);
-    			eenheden.put(temperatuurUnitsImp[0], f);
-    }
+    
     
     /*
 	*
 	*	loads the HashMap which holds the arrays and their "grootheid"(measure)
 	*
 	*/
-    private void loadGrootheidArrayMaps(){
-    	grootheidArrayMapImp.put(grootheden[0], distanceUnitsImp);
-    	grootheidArrayMapImp.put(grootheden[1], weightUnitsImp);
-    	grootheidArrayMapImp.put(grootheden[2], volumeUnitsImp);
-    	grootheidArrayMapImp.put(grootheden[3], speedUnitsImp);
-    	grootheidArrayMapImp.put(grootheden[4], temperatuurUnitsImp);
-		
-		grootheidArrayMapMetric.put(grootheden[0], distanceUnitsMetric);
-    	grootheidArrayMapMetric.put(grootheden[1], weightUnitsMetric);
-    	grootheidArrayMapMetric.put(grootheden[2], volumeUnitsMetric);
-    	grootheidArrayMapMetric.put(grootheden[3], speedUnitsMetric);
-    	grootheidArrayMapMetric.put(grootheden[4], temperatuurUnitsMetric);
-    }
-	
-	private void loadSysteemImagesMap(){
-		systeemImagesMap.put("Metric", metrischSysteem);
-		systeemImagesMap.put("Imp", impSysteem);
-	}
+    
 	
 	/*
 	*
@@ -569,7 +454,7 @@ public class MainActivity extends Activity {
 	*
 	*/
     private Eenheid getEenheid(String s){
-    	return eenheden.get(s);
+    	return eenhedenMap.get(s);
     }
 	
 	private void switchSystems(){
@@ -639,10 +524,10 @@ public class MainActivity extends Activity {
 	private void loadImageViewEvents(){
 		for(int j = 0; j < 5; j++){
 			final int i = j;
-			eenheidImageViews[i].setOnClickListener(new View.OnClickListener() {
+			grootheidImageViews[i].setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view){
-					if (view == eenheidImageViews[i]){
+					if (view == grootheidImageViews[i]){
 						deactivateImages();
 						activateImage(i);
 						setSpinnerArrays();
