@@ -1,23 +1,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-	android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:gravity="center">
 	
 	<LinearLayout android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="center"
+		android:gravity="center_horizontal"
 		android:orientation="horizontal">
 	
-		<ImageView style="@style/ImageView_style"
-			android:id="@+id/img_systeem_l"/>
+		<Button android:id="@+id/btn_systeem_l"
+			android:text="@string/btn_systeem_l"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="switchSystem"/>
 		
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/txtv_pijl"/>
 			
-		<ImageView style="@style/ImageView_style"
-			android:id="@+id/img_systeem_r"/>
+		<Button android:id="@+id/btn_systeem_r"
+			android:text="@string/btn_systeem_r"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="switchSystem"/>
 		
 	</LinearLayout>
 	
@@ -42,25 +49,10 @@
 			android:id="@+id/img_temp"/>
 	
 	</LinearLayout>
-	
-	<LinearLayout android:layout_width="match_parent"
-		style="@style/Layout_spacing"
-		android:gravity="center"
-		android:orientation="horizontal">
-		
-	</LinearLayout>
 		
 	<LinearLayout android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
-		
-			<EditText style="@style/EditText_zonder_margin"
-				android:id="@+id/txt_from"
-				android:layout_width="70dp"
-				android:layout_height="50dp"
-				android:hint="@string/left_txt"
-				android:inputType="numberDecimal" 
-				android:layout_weight="1"/>
 			
 			<Spinner style="@style/SpinnerAsEditText"
 				android:id="@+id/eenheid_spinner_links"
@@ -72,13 +64,6 @@
 				android:layout_height="wrap_content"
 				android:text="@string/txtv_pijl"/>
 				
-			<TextView style="@style/TextView_zonder_margin"
-				android:id="@+id/txtv_uitkomst"
-				android:layout_height="50dp"
-				android:layout_width="70dp"
-				android:text="@string/txtv_uitkomst_def"
-				android:layout_weight="1"/>
-				
 			<Spinner style="@style/SpinnerAsEditText"
 				android:id="@+id/eenheid_spinner_rechts"
 				android:layout_width="85dp"
@@ -87,29 +72,18 @@
 		
 	</LinearLayout>
 	
-	<LinearLayout android:layout_width="match_parent"
-		style="@style/Layout_spacing"
-		android:gravity="center"
-		android:orientation="horizontal">
-	</LinearLayout>	
-	
-	<LinearLayout android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:orientation="horizontal">
-		
-		<Button android:id="@+id/btn_switch"
-			android:text="@string/btn_switch"
-			android:layout_width="wrap_content"
-			android:layout_height="50dp"
-			android:onClick="switchUnits"/>
-		
-		<Spinner android:id="@+id/spn_presets"
-			android:layout_width="wrap_content"
-			android:layout_height="50dp"/>
-			
-	</LinearLayout>
 	
 
-
+	<Button android:id="@+id/btn_switch"
+		android:text="@string/btn_switch"
+		android:layout_width="wrap_content"
+		android:layout_height="50dp"
+		android:onClick="switchUnits"/>
+		
+	<Button android:id="@+id/btn_save"
+		android:text="@string/btn_save_preset"
+		android:layout_width="wrap_content"
+		android:layout_height="50dp"
+		android:onClick="savePreset"/>
+	
 </LinearLayout>

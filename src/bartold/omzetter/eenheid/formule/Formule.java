@@ -56,6 +56,7 @@ public class Formule{
 	
 	public double use(double d){
 		double result = d;
+			
 		for(int i = 0; i < bewerkingen.length; i++){
 			if(bewerkingen[i].equals("+")){
 				result += values[i];

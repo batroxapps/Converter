@@ -104,6 +104,7 @@ public class MainActivity extends Activity {
 	private Map<String, String[]> grootheidArrayMapMetric = new HashMap<String, String[]>();
 	private String activeGrootheid = "lengte";
 	private Map<String, Integer> grootheidImagesMap = new HashMap<String, Integer>();
+	private Map<String, Integer> systeemImagesMap = new HashMap<String, Integer>();
 	
 	private String systeemLinks = "Metric";
 	private String systeemRechts = "Imp";
@@ -120,6 +121,12 @@ public class MainActivity extends Activity {
 	private int[] eenheidActiveImages = {	R.drawable.lengte_actief_bmp, R.drawable.gewicht_actief_bmp, 
 											R.drawable.volume_actief_bmp, R.drawable.snelheid_actief_bmp,
 											R.drawable.temperatuur_actief_bmp};
+	
+	private int metrischSysteem = R.drawable.lengte_bmp;
+	private int impSysteem = R.drawable.imperiaal_bmp;
+	
+	private ImageView imgSysteemLinksView;
+	private ImageView imgSysteemRechtsView;
 	
 	private ImageView imgLengthView;
 	private ImageView imgGewichtView;
@@ -152,7 +159,8 @@ public class MainActivity extends Activity {
 		loadArrays();
 		loadGrootheidArrayMaps();
         loadEenheidHashMap();
-		loadGrootheidImagesMap();
+		loadSysteemImagesMap();
+		// loadGrootheidImagesMap();
 		
 		initImageViews();
 		initSpinners();
@@ -237,6 +245,12 @@ public class MainActivity extends Activity {
 		
 		deactivateImages();
 		activateImage(LENGTE);
+		
+		this.imgSysteemLinksView = (ImageView) this.findViewById(R.id.img_systeem_l);	
+		this.imgSysteemRechtsView = (ImageView) this.findViewById(R.id.img_systeem_r);
+		
+		imgSysteemLinksView.setImageResource(systeemImagesMap.get("Metric"));
+		imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Imp"));
 	}
 	
 	private void deactivateImages(){
@@ -458,15 +472,20 @@ public class MainActivity extends Activity {
     	grootheidArrayMapMetric.put(grootheden[4], temperatuurUnitsMetric);
     }
 	
+	private void loadSysteemImagesMap(){
+		systeemImagesMap.put("Metric", metrischSysteem);
+		systeemImagesMap.put("Imp", impSysteem);
+	}
+	
 	/*
 	*
 	*	loads the HashMap which holds the measures and their images
 	*
 	*/
-	private void loadGrootheidImagesMap(){
-		grootheidImagesMap.put(grootheden[0], R.drawable.lengte_bmp);
-		grootheidImagesMap.put(grootheden[4], R.drawable.temperatuur_bmp);
-	}
+	// private void loadGrootheidImagesMap(){
+		// grootheidImagesMap.put(grootheden[0], R.drawable.lengte_bmp);
+		// grootheidImagesMap.put(grootheden[4], R.drawable.temperatuur_bmp);
+	// }
 	
 	/*
 	*
@@ -493,7 +512,7 @@ public class MainActivity extends Activity {
     	try{
     		uitkomst = roundDouble(Eenheid.convert(getEenheid((String)linksSpinner.getSelectedItem()), getEenheid((String)rechtsSpinner.getSelectedItem()), Double.parseDouble(txtFrom.getText().toString())), 7);
     	}catch(NumberFormatException e){
-    		showErrorMsgBox("Please enter a number!!!");
+    		uitkomst = roundDouble(Eenheid.convert(getEenheid((String)linksSpinner.getSelectedItem()), getEenheid((String)rechtsSpinner.getSelectedItem()), 0d), 7);
     	}
     	tvUitkomst.setText(String.valueOf(uitkomst));
 	}
@@ -553,12 +572,33 @@ public class MainActivity extends Activity {
     	return eenheden.get(s);
     }
 	
+	private void switchSystems(){
+		if(systeemLinks.equals("Metric")){
+			systeemLinks = "Imp";
+			imgSysteemLinksView.setImageResource(systeemImagesMap.get("Imp"));
+		}else{
+			systeemLinks = "Metric";
+			imgSysteemLinksView.setImageResource(systeemImagesMap.get("Metric"));
+		}
+		
+		if(systeemRechts.equals("Metric")){
+			systeemRechts = "Imp";
+			imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Imp"));
+		}else{
+			systeemRechts = "Metric";
+			imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Metric"));
+		}
+		
+		setSpinnerArrays();
+	}
+	
 	/*
 	*
 	*	switches the units (left to right, right to left)
 	*
 	*/
 	public void switchUnits(View Button){
+	
 		String oldLinksEenheid = (String)linksSpinner.getSelectedItem();
 		String oldRechtsEenheid = (String)rechtsSpinner.getSelectedItem();
 		
@@ -568,33 +608,22 @@ public class MainActivity extends Activity {
 		int leftSpinnerPos = rechtsAdapter.getPosition(oldRechtsEenheid);
 		int rightSpinnerPos = linksAdapter.getPosition(oldLinksEenheid);
 		
+		switchSystems();
+		
 		linksSpinner.setSelection(leftSpinnerPos);
 		rechtsSpinner.setSelection(rightSpinnerPos);
 		
 		convert();
 	}
 	
-	public void switchSystem(View button){
-		if(button == (Button)findViewById(R.id.btn_systeem_l)){
-			if(systeemLinks.equals("Metric")){
-				systeemLinks = "Imp";
-				((Button)button).setText("I");
-			}else if(systeemLinks.equals("Imp")){
-				systeemLinks = "Metric";
-				((Button)button).setText("M");
-			}
-		} 
-		if(button == (Button)findViewById(R.id.btn_systeem_r)){
-			if(systeemRechts.equals("Metric")){
-				systeemRechts = "Imp";
-				((Button)button).setText("I");
-			}else if(systeemRechts.equals("Imp")){
-				systeemRechts = "Metric";
-				((Button)button).setText("M");
-			}
-		}
-		
-		setSpinnerArrays();
+	/*
+	*
+	*	opens the activity to add presets
+	*
+	*/
+	public void openPresetAddActivity(MenuItem item){
+		Intent intent = new Intent(this, PresetAddActivity.class);
+		startActivity(intent);
 	}
 	
 	/*
@@ -621,5 +650,35 @@ public class MainActivity extends Activity {
 				}
 			});
 		}
+		
+		imgSysteemLinksView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view){
+				if(systeemLinks.equals("Metric")){
+					systeemLinks = "Imp";
+					imgSysteemLinksView.setImageResource(systeemImagesMap.get("Imp"));
+				}else{
+					systeemLinks = "Metric";
+					imgSysteemLinksView.setImageResource(systeemImagesMap.get("Metric"));
+				}
+				
+				setSpinnerArrays();
+			}
+		});
+		
+		imgSysteemRechtsView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view){
+				if(systeemRechts.equals("Metric")){
+					systeemRechts = "Imp";
+					imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Imp"));
+				}else{
+					systeemRechts = "Metric";
+					imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Metric"));
+				}
+				
+				setSpinnerArrays();
+			}
+		});
 	}
 }

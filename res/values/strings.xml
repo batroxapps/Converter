@@ -25,7 +25,8 @@
 	<!-->
 		menu strings
 	</!-->
-	<string name="action_manage_presets">Presets</string>
+	<string name="action_manage_presets">Manage Presets</string>
+	<string name="action_add_presets">Add Presets</string>
 	
 	<!-->
 		unit & measure strings(arrays)
@@ -98,12 +99,12 @@
 	</string-array>
 	<!-->Temperature</!-->
 	<string-array name="temperature_units_imp">
-		<item>f</item>
+		<item>°F</item>
 	</string-array>
 	
 	<string-array name="temperature_units_metric">
-		<item>k</item>
-		<item>c</item>
+		<item>°K</item>
+		<item>°C</item>
 	</string-array>
 	
 </resources>
