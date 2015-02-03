@@ -10,21 +10,15 @@
 		android:gravity="center_horizontal"
 		android:orientation="horizontal">
 	
-		<Button android:id="@+id/btn_systeem_l"
-			android:text="@string/btn_systeem_l"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:onClick="switchSystem"/>
+		<ImageView style="@style/ImageView_style"
+			android:id="@+id/img_systeem_l_preset"/>
 		
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/txtv_pijl"/>
 			
-		<Button android:id="@+id/btn_systeem_r"
-			android:text="@string/btn_systeem_r"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:onClick="switchSystem"/>
+		<ImageView style="@style/ImageView_style"
+			android:id="@+id/img_systeem_r_preset"/>
 		
 	</LinearLayout>
 	
@@ -34,19 +28,19 @@
 		android:orientation="horizontal">
 	
 		<ImageView style="@style/ImageView_style"
-			android:id="@+id/img_length"/>
+			android:id="@+id/img_length_preset"/>
 		
 		<ImageView style="@style/ImageView_style"
-			android:id="@+id/img_gewicht"/>
+			android:id="@+id/img_gewicht_preset"/>
 			
 		<ImageView style="@style/ImageView_style"
-			android:id="@+id/img_volume"/>
+			android:id="@+id/img_volume_preset"/>
 			
 		<ImageView style="@style/ImageView_style"
-			android:id="@+id/img_snelheid"/>
+			android:id="@+id/img_snelheid_preset"/>
 			
 		<ImageView style="@style/ImageView_style"
-			android:id="@+id/img_temp"/>
+			android:id="@+id/img_temp_preset"/>
 	
 	</LinearLayout>
 		
@@ -55,7 +49,7 @@
 		android:orientation="horizontal">
 			
 			<Spinner style="@style/SpinnerAsEditText"
-				android:id="@+id/eenheid_spinner_links"
+				android:id="@+id/eenheid_spinner_links_preset"
 				android:layout_width="85dp"
 				android:layout_height="50dp"
 				android:layout_weight="1"/>
@@ -65,7 +59,7 @@
 				android:text="@string/txtv_pijl"/>
 				
 			<Spinner style="@style/SpinnerAsEditText"
-				android:id="@+id/eenheid_spinner_rechts"
+				android:id="@+id/eenheid_spinner_rechts_preset"
 				android:layout_width="85dp"
 				android:layout_height="50dp"
 				android:layout_weight="1"/>
@@ -73,17 +67,22 @@
 	</LinearLayout>
 	
 	
-
-	<Button android:id="@+id/btn_switch"
-		android:text="@string/btn_switch"
-		android:layout_width="wrap_content"
-		android:layout_height="50dp"
-		android:onClick="switchUnits"/>
-		
-	<Button android:id="@+id/btn_save"
-		android:text="@string/btn_save_preset"
-		android:layout_width="wrap_content"
-		android:layout_height="50dp"
-		android:onClick="savePreset"/>
+	<LinearLayout android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			
+		<Button android:id="@+id/btn_switch_preset"
+			android:text="@string/btn_switch"
+			android:layout_width="wrap_content"
+			android:layout_height="50dp"
+			android:onClick="switchUnits"/>
+			
+		<Button android:id="@+id/btn_save"
+			android:text="@string/btn_save_preset"
+			android:layout_width="wrap_content"
+			android:layout_height="50dp"
+			android:onClick="savePreset"/>
+			
+	</LinearLayout>
 	
 </LinearLayout>

@@ -39,16 +39,6 @@ public class MainActivity extends Activity {
 
 	private static HashMap<String, Eenheid> eenhedenMap = new HashMap<String, Eenheid>();
 	
-	// private String[] distanceUnitsImp; 
-	// private String[] distanceUnitsMetric; 
-	// private String[] weightUnitsImp;
-	// private String[] weightUnitsMetric;
-	// private String[] volumeUnitsImp;
-	// private String[] volumeUnitsMetric;
-	// private String[] speedUnitsImp;
-	// private String[] speedUnitsMetric;
-	// private String[] temperatuurUnitsImp;
-	// private String[] temperatuurUnitsMetric;
 	private String[] currentArray = null;
 	private String[] grootheden;
 	private static Set<String> presetNames = new HashSet<String>();

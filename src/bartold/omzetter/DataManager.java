@@ -90,6 +90,7 @@ public class DataManager{
 
 	private static Map<String, Integer> systeemImagesMap = new HashMap<String, Integer>();
 	private static ImageView[] grootheidImageViews = new ImageView[5];
+	private static ImageView[] grootheidImageViewsPreset = new ImageView[5];
 	
 	private static Activity activity;
 	
@@ -101,6 +102,7 @@ public class DataManager{
 		loadGrootheidArrayMaps();
 		loadSysteemImagesMap();
 		loadUnitImageviews();
+		loadPresetUnitImageviews();
 	}
 	
 	/*
@@ -200,6 +202,15 @@ public class DataManager{
 		grootheidImageViews[4] = (ImageView) activity.findViewById(R.id.img_temp);
 	}
 	
+	// loads the ImageViews for measure selection for PresetAddActivity
+	private static void loadPresetUnitImageviews(){
+		grootheidImageViewsPreset[0] = (ImageView) activity.findViewById(R.id.img_length_preset);
+		grootheidImageViewsPreset[1] = (ImageView) activity.findViewById(R.id.img_gewicht_preset);
+		grootheidImageViewsPreset[2] = (ImageView) activity.findViewById(R.id.img_volume_preset);
+		grootheidImageViewsPreset[3] = (ImageView) activity.findViewById(R.id.img_snelheid_preset);
+		grootheidImageViewsPreset[4] = (ImageView) activity.findViewById(R.id.img_temp_preset);
+	}
+	
 	/*
 	 *
 	 *	returns all the data
@@ -233,6 +244,11 @@ public class DataManager{
 	// returns the array with measure images
 	public static ImageView[] getGrootheidImageViews(){
 		return grootheidImageViews;
+	}
+	
+	// returns the array with measure images
+	public static ImageView[] getGrootheidImageViewsPreset(){
+		return grootheidImageViewsPreset;
 	}
 	
 	// returns the array with the metric unit arrays
