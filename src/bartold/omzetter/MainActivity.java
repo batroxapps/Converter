@@ -458,23 +458,28 @@ public class MainActivity extends Activity {
     }
 	
 	private void switchSystems(){
+		
+		String tempSysteem = systeemRechts;
+		systeemRechts = systeemLinks;
+		systeemLinks = tempSysteem;
+		
+		reloadSysteemImageViews();
+		
+		setSpinnerArrays();
+	}
+	
+	private void reloadSysteemImageViews(){
 		if(systeemLinks.equals("Metric")){
-			systeemLinks = "Imp";
-			imgSysteemLinksView.setImageResource(systeemImagesMap.get("Imp"));
-		}else{
-			systeemLinks = "Metric";
 			imgSysteemLinksView.setImageResource(systeemImagesMap.get("Metric"));
+		}else{
+			imgSysteemLinksView.setImageResource(systeemImagesMap.get("Imp"));
 		}
 		
 		if(systeemRechts.equals("Metric")){
-			systeemRechts = "Imp";
-			imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Imp"));
-		}else{
-			systeemRechts = "Metric";
 			imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Metric"));
+		}else{
+			imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Imp"));
 		}
-		
-		setSpinnerArrays();
 	}
 	
 	/*
