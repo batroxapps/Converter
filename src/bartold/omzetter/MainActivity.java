@@ -96,14 +96,17 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+    }
+	
+	protected void onStart(){
+		super.onStart();
+		
 		DataManager.init(this);
 		
 		loadArrays();
 		loadGrootheidArrayMaps();
         loadEenheidHashMap();
 		loadSysteemImagesMap();
-		// loadGrootheidImagesMap();
 		
 		initImageViews();
 		initSpinners();
@@ -123,7 +126,7 @@ public class MainActivity extends Activity {
 				return false;
 			}
 		});
-    }
+	}
 	
 	/*
 	*
