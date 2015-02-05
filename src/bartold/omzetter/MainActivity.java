@@ -169,13 +169,17 @@ public class MainActivity extends Activity {
 	*/
 	private void initPresets(){
 		presetSpinner = (Spinner) findViewById(R.id.spn_presets);
-		// presetButton = (Button) findViewById(R.id.btn_presets);
 		
 		loadPresetArrayLists();
 		
 		// adapter for the preset spinner
 		ArrayAdapter presetAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, presetNames.toArray(new String[presetNames.size()]));
 		presetSpinner.setAdapter(presetAdapter);
+	}
+	
+	private void loadPresets(){
+		presets = DataManager.getPresets();
+		presetNames = DataManager.getPresetNames();
 	}
 	
 	private void initImageViews(){
@@ -242,18 +246,18 @@ public class MainActivity extends Activity {
 				
 				@Override
 				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					Preset currentPreset = null;
-					if(!presetSpinner.getSelectedItem().equals(" ")){
-						currentPreset = presets.get(presetSpinner.getSelectedItem());
-					}
+					// Preset currentPreset = null;
+					// if(!presetSpinner.getSelectedItem().equals(" ")){
+						// currentPreset = presets.get(presetSpinner.getSelectedItem());
+					// }
 					
-					if(!presetSpinner.getSelectedItem().equals(" ") && !(linksSpinner.getSelectedItem().equals(currentPreset.getEenheidFrom()) && rechtsSpinner.getSelectedItem().equals(currentPreset.getEenheidTo()))){
-						ArrayAdapter tmpAdapt = (ArrayAdapter) presetSpinner.getAdapter();
+					// if(!presetSpinner.getSelectedItem().equals(" ") && !(linksSpinner.getSelectedItem().equals(currentPreset.getEenheidFrom()) && rechtsSpinner.getSelectedItem().equals(currentPreset.getEenheidTo()))){
+						// ArrayAdapter tmpAdapt = (ArrayAdapter) presetSpinner.getAdapter();
 						
-						int presetSpinnerPos = tmpAdapt.getPosition(" ");
+						// int presetSpinnerPos = tmpAdapt.getPosition(" ");
 						
-						presetSpinner.setSelection(presetSpinnerPos);
-					}
+						// presetSpinner.setSelection(presetSpinnerPos);
+					// }
 					convert();
 				}
 				
@@ -267,18 +271,18 @@ public class MainActivity extends Activity {
 				
 				@Override
 				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					Preset currentPreset = null;
-					if(!presetSpinner.getSelectedItem().equals(" ")){
-						currentPreset = presets.get(presetSpinner.getSelectedItem());
-					}
+					// Preset currentPreset = null;
+					// if(!presetSpinner.getSelectedItem().equals(" ")){
+						// currentPreset = presets.get(presetSpinner.getSelectedItem());
+					// }
 				
-					if(!presetSpinner.getSelectedItem().equals(" ") && !(linksSpinner.getSelectedItem().equals(currentPreset.getEenheidFrom()) && rechtsSpinner.getSelectedItem().equals(currentPreset.getEenheidTo()))){
-						ArrayAdapter tmpAdapt = (ArrayAdapter) presetSpinner.getAdapter();
+					// if(!presetSpinner.getSelectedItem().equals(" ") && !(linksSpinner.getSelectedItem().equals(currentPreset.getEenheidFrom()) && rechtsSpinner.getSelectedItem().equals(currentPreset.getEenheidTo()))){
+						// ArrayAdapter tmpAdapt = (ArrayAdapter) presetSpinner.getAdapter();
 						
-						int presetSpinnerPos = tmpAdapt.getPosition(" ");
+						// int presetSpinnerPos = tmpAdapt.getPosition(" ");
 						
-						presetSpinner.setSelection(presetSpinnerPos);
-					}
+						// presetSpinner.setSelection(presetSpinnerPos);
+					// }
 					convert();
 				}
 				
@@ -372,10 +376,9 @@ public class MainActivity extends Activity {
 	*/
 	private void loadPresetArrayLists(){
 		presetNames.add(" ");
-		// try{
-			// if(presetSpinner.getAdapter().getItem(0) != null)
-				// presetNames.add("test");
-		// }catch(Exception e){}
+		
+		presets = DataManager.getPresets();
+		presetNames = DataManager.getPresetNames();
 	}
     
 	/*

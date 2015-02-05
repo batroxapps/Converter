@@ -211,6 +211,12 @@ public class DataManager{
 		grootheidImageViewsPreset[4] = (ImageView) activity.findViewById(R.id.img_temp_preset);
 	}
 	
+	// adds presets
+	public static void addPreset(Preset p){
+		presetNames.add(p.getName());
+		presets.put(p.getName(), p);
+	}
+	
 	/*
 	 *
 	 *	returns all the data
@@ -232,8 +238,13 @@ public class DataManager{
 	}
 	
 	// returns the Map with the presets
-	public static Map<String, Preset> getPresets(){
+	public static HashMap<String, Preset> getPresets(){
 		return presets;
+	}
+	
+	// returns the amount of presets saved
+	public static int getPresetsSize(){
+		return presets.size();
 	}
 	
 	// returns the system image - array 
@@ -260,4 +271,6 @@ public class DataManager{
 	public static Map<String, String[]> getGrootheidArrayMapImp(){
 		return grootheidArrayMapImp;
 	}
+	
+	
 }
