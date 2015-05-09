@@ -8,6 +8,7 @@ import bartold.omzetter.eenheid.formule.Formule;
 import bartold.omzetter.preset.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -271,18 +272,18 @@ public class MainActivity extends Activity {
 				
 				@Override
 				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					// Preset currentPreset = null;
-					// if(!presetSpinner.getSelectedItem().equals(" ")){
-						// currentPreset = presets.get(presetSpinner.getSelectedItem());
-					// }
-				
-					// if(!presetSpinner.getSelectedItem().equals(" ") && !(linksSpinner.getSelectedItem().equals(currentPreset.getEenheidFrom()) && rechtsSpinner.getSelectedItem().equals(currentPreset.getEenheidTo()))){
-						// ArrayAdapter tmpAdapt = (ArrayAdapter) presetSpinner.getAdapter();
+					ArrayAdapter presetAdapter = (ArrayAdapter) presetSpinner.getAdapter();
+					Preset preset = presets.get(presetSpinner.getSelectedItem());
+					
+					if (preset != null){
+						if (!(preset.getEenheidFrom().equals(linksSpinner.getSelectedItem()) && 
+								preset.getEenheidTo().equals(rechtsSpinner.getSelectedItem()))){
+							
+							presetSpinner.setSelection(presetAdapter.getPosition(" "));
 						
-						// int presetSpinnerPos = tmpAdapt.getPosition(" ");
-						
-						// presetSpinner.setSelection(presetSpinnerPos);
-					// }
+						}
+					}
+					
 					convert();
 				}
 				
@@ -310,11 +311,18 @@ public class MainActivity extends Activity {
 					
 					if(!preset.equals(" ")){
 						Preset p = presets.get(preset);
-						System.out.println(p.getName() + p.getGrootheid() + p.getEenheidFrom() + p.getEenheidTo());
 						
 						activeGrootheid = p.getGrootheid();
 						String links = p.getEenheidFrom();
 						String rechts = p.getEenheidTo();
+						
+						// reload the system images
+						systeemLinks = eenhedenMap.get(links).getSysteemName();
+						systeemRechts = eenhedenMap.get(rechts).getSysteemName();
+						reloadSysteemImageViews();
+						
+						deactivateImages();	
+						activateImage(Arrays.asList(grootheden).indexOf(activeGrootheid));
 						
 						setSpinnerArrays();
 						
@@ -327,14 +335,30 @@ public class MainActivity extends Activity {
 						linksSpinner.setSelection(leftSpinnerPos);
 						rechtsSpinner.setSelection(rightSpinnerPos);
 						
-						convert();
+						print("Test: " + getEenheid((String)linksSpinner.getSelectedItem()));
+						print("Test2");
+						
 					}
+					//~ convert();
 				}
 			
 				
 			
 			}
 		);
+	}
+	
+	/*
+	 * 
+	 * 		sets the systems to the ones given, first left then right
+	 * 
+	 */
+	private void setSystems(String l, String r){
+		systeemLinks = l;
+		systeemRechts = r;
+		
+		imgSysteemLinksView.setImageResource(systeemImagesMap.get(l));
+		imgSysteemRechtsView.setImageResource(systeemImagesMap.get(r));
 	}
 
 
@@ -345,30 +369,6 @@ public class MainActivity extends Activity {
         return true;
     }
     
-	/* 
-	*
-	*	loads the map with the units
-	*
-	*/
-    
-    
-    /*
-	*
-	*	loads the HashMap which holds the arrays and their "grootheid"(measure)
-	*
-	*/
-    
-	
-	/*
-	*
-	*	loads the HashMap which holds the measures and their images
-	*
-	*/
-	// private void loadGrootheidImagesMap(){
-		// grootheidImagesMap.put(grootheden[0], R.drawable.lengte_bmp);
-		// grootheidImagesMap.put(grootheden[4], R.drawable.temperatuur_bmp);
-	// }
-	
 	/*
 	*
 	*	loads the presets into the ArrayList
@@ -391,9 +391,14 @@ public class MainActivity extends Activity {
     	TextView tvUitkomst = (TextView) findViewById(R.id.txtv_uitkomst);
     	double uitkomst = 0;
     	try{
-    		uitkomst = roundDouble(Eenheid.convert(getEenheid((String)linksSpinner.getSelectedItem()), getEenheid((String)rechtsSpinner.getSelectedItem()), Double.parseDouble(txtFrom.getText().toString())), 7);
+			// converts the input, rounded to 3 numbers after the comma
+    		uitkomst = roundDouble(Eenheid.convert(getEenheid((String)linksSpinner.getSelectedItem()), 
+				getEenheid((String)rechtsSpinner.getSelectedItem()), Double.parseDouble(txtFrom.getText().toString())), 3);
     	}catch(NumberFormatException e){
-    		uitkomst = roundDouble(Eenheid.convert(getEenheid((String)linksSpinner.getSelectedItem()), getEenheid((String)rechtsSpinner.getSelectedItem()), 0d), 7);
+			// if there is something present in the EditText that's not a number,
+			// it is seen as a zero
+    		uitkomst = roundDouble(Eenheid.convert(getEenheid((String)linksSpinner.getSelectedItem()), 
+				getEenheid((String)rechtsSpinner.getSelectedItem()), 0d), 3);
     	}
     	tvUitkomst.setText(String.valueOf(uitkomst));
 	}

@@ -223,4 +223,44 @@ public class PresetAddActivity extends Activity{
 			}
 		});
 	}
+		
+	public void switchUnits(View Button){
+		String oldLinksEenheid = (String)linksSpinner.getSelectedItem();
+		String oldRechtsEenheid = (String)rechtsSpinner.getSelectedItem();
+		
+		ArrayAdapter linksAdapter = (ArrayAdapter) linksSpinner.getAdapter();
+		ArrayAdapter rechtsAdapter = (ArrayAdapter) rechtsSpinner.getAdapter();
+		
+		int leftSpinnerPos = rechtsAdapter.getPosition(oldRechtsEenheid);
+		int rightSpinnerPos = linksAdapter.getPosition(oldLinksEenheid);
+		
+		switchSystems();
+		
+		linksSpinner.setSelection(leftSpinnerPos);
+		rechtsSpinner.setSelection(rightSpinnerPos);
+	}
+	
+	private void switchSystems(){
+		String tempSysteem = systeemRechts;
+		systeemRechts = systeemLinks;
+		systeemLinks = tempSysteem;
+		
+		reloadSysteemImageViews();
+		
+		setSpinnerArrays();
+	}
+	
+	private void reloadSysteemImageViews(){
+		if(systeemLinks.equals("Metric")){
+			imgSysteemLinksView.setImageResource(systeemImagesMap.get("Metric"));
+		}else{
+			imgSysteemLinksView.setImageResource(systeemImagesMap.get("Imp"));
+		}
+		
+		if(systeemRechts.equals("Metric")){
+			imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Metric"));
+		}else{
+			imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Imp"));
+		}
+	}
 }

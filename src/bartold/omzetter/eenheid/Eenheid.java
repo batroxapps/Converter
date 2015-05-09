@@ -48,6 +48,15 @@ public abstract class Eenheid{
 		return systeem;
 	}
 	
+	public String getSysteemName(){
+		if (systeem == 0){
+			return "Metric";
+		}else if (systeem == 1 || systeem ==2){
+			return "Imp";
+		}
+		return null;
+	}
+	
 	public int getGrootheid(){
 		return grootheid;
 	}
