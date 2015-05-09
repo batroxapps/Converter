@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:custom="http://schemas.android.com/apk/res/bartold.omzetter">
+	<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/stockSymbolTextView"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@android:color/transparent"
+	    android:padding="@dimen/activity_horizontal_margin" >
+	 
+	    <TextView
+	        android:id="@+id/txtv_preset"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_span="2"
+	        android:layout_weight="1"
+	        android:textIsSelectable="true" />
+	 
+	    <Button
+	        android:id="@+id/btn_delete_preset"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/btn_delete_preset" />
+	 
+	    <Button
+	        android:id="@+id/btn_edit_preset"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/btn_edit_preset" />
+	 
+	</TableRow>
+
+</LinearLayout>

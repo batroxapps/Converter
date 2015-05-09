@@ -1,0 +1,5 @@
+<resources>
+	<declare-styleable name="PresetView">
+		<attr name="presetName" format="string" />
+	</declare-styleable>
+</resources>

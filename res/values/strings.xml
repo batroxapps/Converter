@@ -16,11 +16,17 @@
 	<string name="btn_presets">Manage presets</string>
 	
 	<!-->
-		preset activity layout strings
+		preset add activity layout strings
 	</!-->
 	<string name="btn_save_preset">Save</string>
 	<string name="preset_added">Preset added!</string>
 	<string name="preset_already_exists">Preset already exists!</string>
+	
+	<!-->
+		preset manager activity layout strings
+	</!-->
+	<string name="btn_delete_preset">Delete</string>
+	<string name="btn_edit_preset">Edit</string>
 	
 	<!-->
 		menu strings

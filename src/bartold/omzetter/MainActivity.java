@@ -217,6 +217,10 @@ public class MainActivity extends Activity {
 		presets.put(preset.getName(), preset);
 	}
 	
+	public static HashMap<String, Preset> getPresets(){
+		return presets;
+	}
+	
 	/*
 	*
 	*	returns the size of the presets map
@@ -503,6 +507,8 @@ public class MainActivity extends Activity {
 		
 		linksSpinner.setSelection(leftSpinnerPos);
 		rechtsSpinner.setSelection(rightSpinnerPos);
+		
+		print("Switch");
 		
 		convert();
 	}
