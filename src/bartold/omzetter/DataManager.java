@@ -19,53 +19,90 @@ import android.widget.ImageView;
 public class DataManager{
 
 	//Distance metric units
-	private static Distance mm = new Distance("mm", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1000d}));
-	private static Distance cm = new Distance("cm", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{100d}));
-	private static Distance dm = new Distance("dm", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{10d}));
-	private static Distance m = new Distance("m", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1d}));
-	private static Distance dam = new Distance("dam", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{10d}));
-	private static Distance hm = new Distance("hm", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{100d}));
-	private static Distance km = new Distance("km", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1000d}));
+	private static Distance mm = new Distance("mm", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"/"}, new Double[]{1000d}));
+	private static Distance cm = new Distance("cm", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"/"}, new Double[]{100d}));
+	private static Distance dm = new Distance("dm", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"/"}, new Double[]{10d}));
+	private static Distance m = new Distance("m", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"/"}, new Double[]{1d}));
+	private static Distance dam = new Distance("dam", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"*"}, new Double[]{10d}));
+	private static Distance hm = new Distance("hm", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"*"}, new Double[]{100d}));
+	private static Distance km = new Distance("km", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"*"}, new Double[]{1000d}));
 	//Distance imperial units
-	private static Distance in = new Distance("in", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{12d}));
-	private static Distance ft = new Distance("ft", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{1d}));
-	private static Distance yd = new Distance("yd", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{3d}));
-	private static Distance mi = new Distance("mi", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{5280d}));
+	private static Distance in = new Distance("in", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"/"}, new Double[]{12d}));
+	private static Distance ft = new Distance("ft", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"*"}, new Double[]{1d}));
+	private static Distance yd = new Distance("yd", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"*"}, new Double[]{3d}));
+	private static Distance mi = new Distance("mi", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"*"}, new Double[]{5280d}));
 	// Weight metric units
-	private static Weight g = new Weight("g", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1000d}));
-	private static Weight kg = new Weight("kg", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1d}));
+	private static Weight g = new Weight("g", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"/"}, new Double[]{1000d}));
+	private static Weight kg = new Weight("kg", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"*"}, new Double[]{1d}));
 	// Weight imperial units
-	private static Weight gr = new Weight("gr", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{7000d}));
-	private static Weight dr = new Weight("dr", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{256d}));
-	private static Weight oz = new Weight("oz", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{16d}));
-	private static Weight lb = new Weight("lb", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{1d}));
+	private static Weight gr = new Weight("gr", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"/"}, new Double[]{7000d}));
+	private static Weight dr = new Weight("dr", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"/"}, new Double[]{256d}));
+	private static Weight oz = new Weight("oz", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"/"}, new Double[]{16d}));
+	private static Weight lb = new Weight("lb", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"*"}, new Double[]{1d}));
 	// Volume metric units
-	private static Volume ml = new Volume("ml", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1000d}));
-	private static Volume mcup = new Volume("metric cup", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{4d}));
-	private static Volume l = new Volume("l", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"/"}, new Double[]{1d}));
+	private static Volume ml = new Volume("ml", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"/"}, new Double[]{1000d}));
+	private static Volume mcup = new Volume("metric cup", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"/"}, new Double[]{4d}));
+	private static Volume l = new Volume("l", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"/"}, new Double[]{1d}));
 	// Volume imperial units
-	private static Volume impfloz = new Volume("imp fl oz", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{20d}));
-	private static Volume impcup = new Volume("imp cup", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{2d}));
-	private static Volume imppt = new Volume("imp pt", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"/"}, new Double[]{1d}));
-	private static Volume impqt = new Volume("imp qt", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{2d}));
-	private static Volume impgal = new Volume("imp gal", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{8d}));
+	private static Volume impfloz = new Volume("imp fl oz", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"/"}, new Double[]{20d}));
+	private static Volume impcup = new Volume("imp cup", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"/"}, new Double[]{2d}));
+	private static Volume imppt = new Volume("imp pt", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"/"}, new Double[]{1d}));
+	private static Volume impqt = new Volume("imp qt", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"*"}, new Double[]{2d}));
+	private static Volume impgal = new Volume("imp gal", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"*"}, new Double[]{8d}));
 	// Volume US units
-	private static Volume usfloz = new Volume("us fl oz", Eenheid.SYSTEM_US, new Formule(new String[]{"/"}, new Double[]{16d}));
-	private static Volume uscup = new Volume("us cup", Eenheid.SYSTEM_US, new Formule(new String[]{"/"}, new Double[]{2d}));
-	private static Volume uspt = new Volume("us pt", Eenheid.SYSTEM_US, new Formule(new String[]{"/"}, new Double[]{1d}));
-	private static Volume usqt = new Volume("us qt", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{2d}));
-	private static Volume usgal = new Volume("us gal", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{8d}));
+	private static Volume usfloz = new Volume("us fl oz", Eenheid.SYSTEM_US, 
+			new Formule(new String[]{"/"}, new Double[]{16d}));
+	private static Volume uscup = new Volume("us cup", Eenheid.SYSTEM_US, 
+			new Formule(new String[]{"/"}, new Double[]{2d}));
+	private static Volume uspt = new Volume("us pt", Eenheid.SYSTEM_US, 
+			new Formule(new String[]{"/"}, new Double[]{1d}));
+	private static Volume usqt = new Volume("us qt", Eenheid.SYSTEM_US, 
+			new Formule(new String[]{"*"}, new Double[]{2d}));
+	private static Volume usgal = new Volume("us gal", Eenheid.SYSTEM_US, 
+			new Formule(new String[]{"*"}, new Double[]{8d}));
 	// Speed metric units
-	private static Speed kph = new Speed("kph", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1d}));
-	private static Speed mps = new Speed("mps", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{3.6d}));
-	private static Speed knoop = new Speed("knopen", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1.852d}));
+	private static Speed kph = new Speed("kph", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"*"}, new Double[]{1d}));
+	private static Speed mps = new Speed("mps", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"*"}, new Double[]{3.6d}));
+	private static Speed knoop = new Speed("knopen", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"*"}, new Double[]{1.852d}));
 	// Speed imperial units
-	private static Speed mph = new Speed("mph", Eenheid.SYSTEM_IMPERIAL, new Formule(new String[]{"*"}, new Double[]{1d}));
-	// metric temperatuur units (Kelvin is initizialized as imperial, but is metric
-	private static Temperatuur c = new Temperatuur("c", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"*"}, new Double[]{1d}));
-	private static Temperatuur k = new Temperatuur("k", Eenheid.SYSTEM_METRIC, new Formule(new String[]{"-"}, new Double[]{273.15}));
+	private static Speed mph = new Speed("mph", Eenheid.SYSTEM_IMPERIAL, 
+			new Formule(new String[]{"*"}, new Double[]{1d}));
+	// metric temperatuur units
+	private static Temperatuur c = new Temperatuur("c", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"*"}, new Double[]{1d}));
+	private static Temperatuur k = new Temperatuur("k", Eenheid.SYSTEM_METRIC, 
+			new Formule(new String[]{"-"}, new Double[]{273.15}));
 	// us temperature units
-	private static Temperatuur f = new Temperatuur("f", Eenheid.SYSTEM_US, new Formule(new String[]{"*"}, new Double[]{1d}));
+	private static Temperatuur f = new Temperatuur("f", Eenheid.SYSTEM_US, 
+			new Formule(new String[]{"*"}, new Double[]{1d}));
 
 	private static String[] grootheden;
 	
