@@ -2,9 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:gravity="center">
+    tools:context=".presetManagerActivity">
+
+	<TableRow 
+		android:id="@+id/tableRow"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" >
+		
+		<TextView 
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/manage_presets"
+			android:layout_gravity="center_horizontal" />
 	
+	</TableRow>
 
 	<TableRow
 		android:id="@+id/tableRow"
@@ -13,10 +24,9 @@
 		android:layout_weight="1" >
  
 		<ScrollView
-			android:id="@+id/stockScrollView"
+			android:id="@+id/presetsScrollView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_span="2"
 			android:padding="5dp" >
  
 			<TableLayout

@@ -217,6 +217,11 @@ public class MainActivity extends Activity {
 		presets.put(preset.getName(), preset);
 	}
 	
+	public static void deletePreset(String preset){
+		presetNames.remove(preset);
+		presets.remove(preset);
+	}
+	
 	public static HashMap<String, Preset> getPresets(){
 		return presets;
 	}
@@ -228,6 +233,10 @@ public class MainActivity extends Activity {
 	*/
 	public static int getPresetsSize(){
 		return presets.size();
+	}
+	
+	public static Set<String> getPresetNames(){
+		return presetNames;
 	}
 	
 	/*
@@ -333,8 +342,8 @@ public class MainActivity extends Activity {
 						ArrayAdapter linksAdapter = (ArrayAdapter) linksSpinner.getAdapter();
 						ArrayAdapter rechtsAdapter = (ArrayAdapter) rechtsSpinner.getAdapter();
 						
-						int leftSpinnerPos = rechtsAdapter.getPosition(links);
-						int rightSpinnerPos = linksAdapter.getPosition(rechts);
+						int leftSpinnerPos = linksAdapter.getPosition(links);
+						int rightSpinnerPos = rechtsAdapter.getPosition(rechts);
 						
 						linksSpinner.setSelection(leftSpinnerPos);
 						rechtsSpinner.setSelection(rightSpinnerPos);

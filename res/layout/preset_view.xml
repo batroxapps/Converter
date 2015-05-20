@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="match_parent"
-	    android:layout_height="match_parent">
+		xmlns:tools="http://schemas.android.com/tools">
 		
 		
 	<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,15 +13,19 @@
 	        android:id="@+id/txtv_preset"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"/>
+	        android:textIsSelectable="true" />
 	 
 	    <Button
 	        android:id="@+id/btn_delete_preset"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:text="@string/btn_delete_preset"
-	        android:onClick="deletePreset" />
+	        android:text="@string/btn_delete_preset" />
+	 
+	    <Button
+	        android:id="@+id/btn_edit_preset"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/btn_edit_preset" />
 	 
 	</TableRow>
 
