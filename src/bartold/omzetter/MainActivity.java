@@ -129,6 +129,12 @@ public class MainActivity extends Activity {
 		});
 	}
 	
+	protected void onStop(){
+		super.onStop();
+		
+		DataManager.save();
+	}
+	
 	/*
 	*
 	*	loads the units and the measures into their arrays

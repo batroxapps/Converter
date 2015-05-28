@@ -74,6 +74,10 @@ public class PresetAddActivity extends Activity{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preset_add);
+	}
+	
+	protected void onStart(){
+		super.onStart();
 		
 		DataManager.init(this);
 		
@@ -90,13 +94,21 @@ public class PresetAddActivity extends Activity{
 		setSpinnerArrays();
 	}
 	
+	protected void onStop(){
+		super.onStop();
+		
+		DataManager.save();
+	}
+	
 	public void savePreset(View button){
 		String groot = activeGrootheid;
 		String links = (String) ((Spinner)findViewById(R.id.eenheid_spinner_links_preset)).getSelectedItem();
 		String rechts = (String) ((Spinner)findViewById(R.id.eenheid_spinner_rechts_preset)).getSelectedItem();
+		
 		int oldSize = DataManager.getPresetsSize();
 		DataManager.addPreset(new Preset(groot, links, rechts));
 		int newSize = DataManager.getPresetsSize();
+		
 		if(newSize > oldSize)
 			Toast.makeText(this, getResources().getString(R.string.preset_added), Toast.LENGTH_SHORT).show();
 		else

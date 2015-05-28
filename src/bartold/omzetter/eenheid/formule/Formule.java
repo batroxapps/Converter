@@ -87,4 +87,16 @@ public class Formule{
 		}
 		return result;
 	}
+	
+	public String[] getBewerkingen(){
+		return bewerkingen;
+	}
+	
+	public Double[] getValues(){
+		return values;
+	}
+	
+	public int getSize(){
+		return bewerkingen.length;
+	}
 }

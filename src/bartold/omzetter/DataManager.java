@@ -6,6 +6,8 @@ import bartold.omzetter.eenheid.*;
 import bartold.omzetter.eenheid.formule.Formule;
 import bartold.omzetter.preset.*;
 
+import java.io.FileOutputStream;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +15,8 @@ import java.util.Set;
 import java.util.HashSet;
 
 import android.app.Activity;
+
+import android.content.Context;
 
 import android.widget.ImageView;
 
@@ -140,6 +144,12 @@ public class DataManager{
 		loadSysteemImagesMap();
 		loadUnitImageviews();
 		loadPresetUnitImageviews();
+		loadPresets();
+	}
+	
+	// saves all the important stuff
+	public static void save(){
+		savePresets();
 	}
 	
 	/*
@@ -248,10 +258,49 @@ public class DataManager{
 		grootheidImageViewsPreset[4] = (ImageView) activity.findViewById(R.id.img_temp_preset);
 	}
 	
-	// adds presets
+	// loads the presets from the save file
+	private static void loadPresets(){
+		if (presetNames.size() == 0)
+			presetNames.add(" ");
+	}
+	
+	// adds a preset
 	public static void addPreset(Preset p){
 		presetNames.add(p.getName());
 		presets.put(p.getName(), p);
+	}
+	
+	// deletes a preset
+	public static void deletePreset(Preset p){
+		write("Deleting: " + p.getName());
+		presetNames.remove(p.getName());
+		presets.remove(p.getName());
+	}
+	
+	// save the presets to the save file
+	private static void savePresets(){
+		String filename = "presets";
+		FileOutputStream outputStream;
+		
+		try{
+			outputStream = Converter.getAppContext().openFileOutput(filename, Context.MODE_PRIVATE);
+			presetNames = DataManager.getPresetNames();
+			HashMap<String, Preset> presets = DataManager.getPresets();
+			HashMap<String, Eenheid> eenheden = DataManager.getEenhedenHashMap();
+			
+			for (String p : presetNames){
+				if(!p.equals(" ")){
+					Preset s = presets.get(p);
+					String toWrite = s.getName() + s.getEenheidFrom() + eenheden.get(s.getEenheidFrom()).getSysteem() + eenheden.get(s.getEenheidFrom()).getGrootheid() + eenheden.get(s.getEenheidFrom()).getToHoofd().getSize() + eenheden.get(s.getEenheidFrom()).getToHoofd().getBewerkingen() + eenheden.get(s.getEenheidFrom()).getToHoofd().getValues() + s.getEenheidTo() + eenheden.get(s.getEenheidTo()).getSysteem() + eenheden.get(s.getEenheidTo()).getGrootheid() + eenheden.get(s.getEenheidTo()).getToHoofd().getSize() + eenheden.get(s.getEenheidTo()).getToHoofd().getBewerkingen() + eenheden.get(s.getEenheidTo()).getToHoofd().getValues();
+				}
+			}
+			
+			//~ outputStream.write(string.getBytes());
+			outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
 	}
 	
 	/*
@@ -281,6 +330,8 @@ public class DataManager{
 	
 	// returns the amount of presets saved
 	public static int getPresetsSize(){
+		write("Data size: " + presets.size());
+				
 		return presets.size();
 	}
 	

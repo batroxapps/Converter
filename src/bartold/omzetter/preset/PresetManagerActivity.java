@@ -42,16 +42,22 @@ public class PresetManagerActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_preset_manager);
+	}
+	
+	protected void onStart(){
+		super.onStart();
 		
-		System.out.println("Test");
+		DataManager.init(this);
 		
 		presetsTableScrollView = (TableLayout) findViewById(R.id.presetsTableScrollView);
 		
-		ArrayList<Preset> presets = new ArrayList<Preset>();
-		
-		write("Size: " + MainActivity.getPresetsSize());
-		
 		reloadPresets();
+	}
+	
+	protected void onStop(){
+		super.onStop();
+		
+		DataManager.save();
 	}
 	
 	private void reloadPresets(){
@@ -60,10 +66,12 @@ public class PresetManagerActivity extends Activity{
 		
 		ArrayList<Preset> presets = new ArrayList<Preset>();
 		
-		if (MainActivity.getPresetsSize() > 0){
+		if (DataManager.getPresetsSize() > 0){
 			presets = getPresets();
 			
-			for(int i = 0; i < MainActivity.getPresetsSize(); i++){
+			write("Size: " + DataManager.getPresetsSize());
+			
+			for(int i = 0; i < DataManager.getPresetsSize(); i++){
 				
 				insertPresetInScrollView(presets.get(i), i);
 				
@@ -74,13 +82,15 @@ public class PresetManagerActivity extends Activity{
 	private ArrayList<Preset> getPresets(){
 		
 		ArrayList<Preset> presets = new ArrayList<Preset>();
-		HashMap<String, Preset> presetsMap = MainActivity.getPresets();
+		HashMap<String, Preset> presetsMap = DataManager.getPresets();
 		
-		for (String name : MainActivity.getPresetNames()){
+		for (String name : DataManager.getPresetNames()){
 			if(!name.equals(" ")){
 				presets.add(presetsMap.get(name));
-				write(name);
-				write(presetsMap.get(name).getName());
+				
+				for (Preset p : presets){
+					write(p.getName());
+				}
 			}
 		}
 		
@@ -100,21 +110,14 @@ public class PresetManagerActivity extends Activity{
 		 
 		// Add the stock symbol to the TextView
 		newPresetTextView.setText(p.getName());
-		
-		//~ Button deleteButton = (Button) newPresetRow.findViewById(R.id.btn_delete_preset);
-			         //~ 
-		//~ Button editButton = (Button) newPresetRow.findViewById(R.id.btn_edit_preset);
 		 
 		// Add the new components for the stock to the TableLayout
 		presetsTableScrollView.addView(newPresetRow, arrayIndex);
-		
-		write(p.getName());
 		 
 	}
 	
 	// deletes a preset
 	public void deletePreset(View button){
-		write("Test delete");
 		
 		Button buttonClicked = (Button) button;
 		ScrollView scrView = (ScrollView) findViewById(R.id.presetsScrollView);
@@ -124,29 +127,19 @@ public class PresetManagerActivity extends Activity{
 		for (int i = 0; i < scrView.getChildCount(); i++){
 			
 			TextView txtView = (TextView)((ViewGroup) presetRow).getChildAt(0);
-			write((String)txtView.getText());
 			
 			for (String s : presetNames){
 				if (s.equals((String)txtView.getText())){
-					write("Delete! Delete! Delete!");
-					MainActivity.deletePreset(s);
+
+					DataManager.deletePreset(DataManager.getPresets().get(s));
 					presetNames.remove(s);
+					
+					Toast.makeText(this, getResources().getString(R.string.preset_deleted), Toast.LENGTH_SHORT).show();
 					
 					reloadPresets();
 					break;
 				}
 			}
-			
-			
-			//~ if (((View)scrView.getChildAt(i)).equals(presetRow)){
-				//~ 
-				//~ TextView txtView = (TextView)((ViewGroup) presetRow).getChildAt(2);
-				//~ write((String)txtView.getText());
-				//~ 
-			//~ } else {
-				//~ write("BUGDIBUG");
-			//~ }
-			
 		}
 	}
 		
