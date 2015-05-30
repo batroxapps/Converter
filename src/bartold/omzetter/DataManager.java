@@ -6,11 +6,17 @@ import bartold.omzetter.eenheid.*;
 import bartold.omzetter.eenheid.formule.Formule;
 import bartold.omzetter.preset.*;
 
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -135,6 +141,14 @@ public class DataManager{
 	
 	private static Activity activity;
 	
+	public static void initPresets(){
+		try{
+			loadPresets();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
 	public static void init(Activity a){
 		activity = a;
 		
@@ -144,12 +158,20 @@ public class DataManager{
 		loadSysteemImagesMap();
 		loadUnitImageviews();
 		loadPresetUnitImageviews();
-		loadPresets();
+		try{
+			loadPresets();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	// saves all the important stuff
 	public static void save(){
-		savePresets();
+		try{
+			savePresets();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	/*
@@ -259,9 +281,45 @@ public class DataManager{
 	}
 	
 	// loads the presets from the save file
-	private static void loadPresets(){
+	private static void loadPresets() throws IOException{
 		if (presetNames.size() == 0)
 			presetNames.add(" ");
+			
+		String filename = "presets";
+		File file = new File(Converter.getAppContext().getFilesDir(), filename);
+		//~ BufferedReader inputStream;
+		ArrayList<String> temp = new ArrayList<String>();
+		Scanner s = null;
+		//~ 
+		//~ try{
+			//~ inputStream = new BufferedReader(new FileReader(file));
+			//~ String l;
+			//~ while ((l = inputStream.readLine()) != null)
+				//~ temp.add(l);
+				//~ 
+			//~ for (String s : temp){
+				//~ write(s);
+			//~ }
+		//~ 
+		//~ }finally{
+			//~ inputStream.close();
+		//~ }
+		//~ 
+		
+		s = new Scanner(new BufferedReader(new FileReader(file)));
+		s.useDelimiter("-");
+		
+		while (s.hasNext()) {
+			temp.add(s.next());
+		}
+		
+		if (temp.size() > 0){
+			for (int i = 0; i < temp.size(); i = i+3){
+				Preset p = new Preset(temp.get(i), temp.get(i+1), temp.get(i+2));
+				presets.put(p.getName(), p);
+				presetNames.add(p.getName());
+			}
+		}
 	}
 	
 	// adds a preset
@@ -278,12 +336,13 @@ public class DataManager{
 	}
 	
 	// save the presets to the save file
-	private static void savePresets(){
+	private static void savePresets() throws IOException{
 		String filename = "presets";
-		FileOutputStream outputStream;
+		File file = new File(Converter.getAppContext().getFilesDir(), filename);
+		PrintWriter outputStream = null;
 		
 		try{
-			outputStream = Converter.getAppContext().openFileOutput(filename, Context.MODE_PRIVATE);
+			outputStream = new PrintWriter(new FileWriter(file));
 			presetNames = DataManager.getPresetNames();
 			HashMap<String, Preset> presets = DataManager.getPresets();
 			HashMap<String, Eenheid> eenheden = DataManager.getEenhedenHashMap();
@@ -291,15 +350,11 @@ public class DataManager{
 			for (String p : presetNames){
 				if(!p.equals(" ")){
 					Preset s = presets.get(p);
-					String toWrite = s.getName() + s.getEenheidFrom() + eenheden.get(s.getEenheidFrom()).getSysteem() + eenheden.get(s.getEenheidFrom()).getGrootheid() + eenheden.get(s.getEenheidFrom()).getToHoofd().getSize() + eenheden.get(s.getEenheidFrom()).getToHoofd().getBewerkingen() + eenheden.get(s.getEenheidFrom()).getToHoofd().getValues() + s.getEenheidTo() + eenheden.get(s.getEenheidTo()).getSysteem() + eenheden.get(s.getEenheidTo()).getGrootheid() + eenheden.get(s.getEenheidTo()).getToHoofd().getSize() + eenheden.get(s.getEenheidTo()).getToHoofd().getBewerkingen() + eenheden.get(s.getEenheidTo()).getToHoofd().getValues();
+					outputStream.print(s.getGrootheid() + "-" + s.getEenheidFrom() + "-" + s.getEenheidTo() + "-");
 				}
 			}
-			
-			//~ outputStream.write(string.getBytes());
+		}finally{
 			outputStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-
 		}
 	}
 	

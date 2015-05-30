@@ -79,6 +79,7 @@ public class PresetAddActivity extends Activity{
 	protected void onStart(){
 		super.onStart();
 		
+		DataManager.save();
 		DataManager.init(this);
 		
 		loadArrays();

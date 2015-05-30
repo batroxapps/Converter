@@ -47,6 +47,7 @@ public class PresetManagerActivity extends Activity{
 	protected void onStart(){
 		super.onStart();
 		
+		DataManager.save();
 		DataManager.init(this);
 		
 		presetsTableScrollView = (TableLayout) findViewById(R.id.presetsTableScrollView);
