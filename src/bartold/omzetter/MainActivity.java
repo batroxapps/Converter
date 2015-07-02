@@ -169,7 +169,7 @@ public class MainActivity extends Activity {
 		linksSpinner = (Spinner) findViewById(R.id.eenheid_spinner_links);
         rechtsSpinner = (Spinner) findViewById(R.id.eenheid_spinner_rechts);
         
-        setSpinnerArrays();
+        setSpinnerArrays("both");
 	}
 
 	/*
@@ -346,7 +346,7 @@ public class MainActivity extends Activity {
 						deactivateImages();	
 						activateImage(Arrays.asList(grootheden).indexOf(activeGrootheid));
 						
-						setSpinnerArrays();
+						setSpinnerArrays("both");
 						
 						ArrayAdapter linksAdapter = (ArrayAdapter) linksSpinner.getAdapter();
 						ArrayAdapter rechtsAdapter = (ArrayAdapter) rechtsSpinner.getAdapter();
@@ -431,16 +431,23 @@ public class MainActivity extends Activity {
 	*
 	*/
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private void setSpinnerArrays(){
-    	ArrayAdapter linksAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getCurrentArray(systeemLinks));
-		ArrayAdapter rechtsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getCurrentArray(systeemRechts));
-
-		// if(!isArrayActive()){
+    private void setSpinnerArrays(String side){
+		if(side.equals("left")){
+			ArrayAdapter linksAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getCurrentArray(systeemLinks));
+			
 			linksSpinner.setAdapter(null);
-			rechtsSpinner.setAdapter(null);
 			linksSpinner.setAdapter(linksAdapter);
+		}else if(side.equals("right")){
+			ArrayAdapter rechtsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getCurrentArray(systeemRechts));
+
+			rechtsSpinner.setAdapter(null);
 			rechtsSpinner.setAdapter(rechtsAdapter);
-		// }
+		}else if(side.equals("both")){
+			setSpinnerArrays("left");
+			setSpinnerArrays("right");
+		}
+    	
+		
     }
 	
 	/*
@@ -488,7 +495,7 @@ public class MainActivity extends Activity {
 		
 		reloadSysteemImageViews();
 		
-		setSpinnerArrays();
+		setSpinnerArrays("both");
 	}
 	
 	private void reloadSysteemImageViews(){
@@ -560,7 +567,7 @@ public class MainActivity extends Activity {
 					if (view == grootheidImageViews[i]){
 						deactivateImages();
 						activateImage(i);
-						setSpinnerArrays();
+						setSpinnerArrays("both");
 					}
 				}
 			});
@@ -577,7 +584,7 @@ public class MainActivity extends Activity {
 					imgSysteemLinksView.setImageResource(systeemImagesMap.get("Metric"));
 				}
 				
-				setSpinnerArrays();
+				setSpinnerArrays("left");
 			}
 		});
 		
@@ -592,7 +599,7 @@ public class MainActivity extends Activity {
 					imgSysteemRechtsView.setImageResource(systeemImagesMap.get("Metric"));
 				}
 				
-				setSpinnerArrays();
+				setSpinnerArrays("right");
 			}
 		});
 	}
